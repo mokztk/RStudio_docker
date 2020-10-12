@@ -3,17 +3,14 @@
 set -x
 
 # radian: A 21 century R console.
-# {reticulate} も使えるようにする
 
-# Python3のインストール
-apt-get update
-apt-get install -y libpython3.8 python3-pandas python3-pip
-apt-get clean
-rm -rf /var/lib/apt/lists/*
-
-# python の共有ライブラリを登録
-echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpython3.8.conf
-ldconfig
+# pip3 を install_pandas.sh などで既に入れていればスキップ
+if [ ! -e "/usr/bin/pip3" ]; then
+    apt-get update
+    apt-get install -y --no-install-recommends python3-pip
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+fi
 
 # radianのインストール
 pip3 install -U radian
@@ -29,6 +26,3 @@ options(radian.escape_key_map = list(
 EOF
 
 chown rstudio:rstudio /home/rstudio/.radian_profile
-
-# R に {reticulate} をインストール
-R -e 'install.packages("reticulate")'

@@ -22,6 +22,7 @@ RUN set -x \
 COPY my_scripts /my_scripts
 RUN chmod 775 my_scripts/*
 RUN /my_scripts/install_r_packages.sh
+RUN /my_scripts/install_pandas.sh
 RUN /my_scripts/install_radian.sh
 #RUN /my_scripts/install_notocjk.sh 
 RUN /my_scripts/install_notojp.sh
@@ -32,6 +33,7 @@ RUN /my_scripts/install_tinytex.sh
 USER root
 ENV LANG=ja_JP.UTF-8 \
     LC_ALL=ja_JP.UTF-8 \
+    TZ=Asia/Tokyo \
     PASSWORD=password
     
 CMD ["/init"]
