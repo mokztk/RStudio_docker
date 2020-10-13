@@ -21,3 +21,39 @@ wget -q -O /usr/share/fonts/notojp/NotoSansJP-Medium.otf http://fonts.gstatic.co
 
 chmod 644 /usr/share/fonts/notojp/*
 fc-cache -fv
+
+# 標準フォントとして手動で入れた Noto fonts を認識できるようにする
+# 設定しておけば、最低限グラフの文字化けはなくなる
+
+mkdir -p /home/rstudio/.config/fontconfig
+
+cat > /home/rstudio/.config/fontconfig/fonts.conf << EOF
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <alias>
+        <family>serif</family>
+        <prefer>
+            <family>Noto Serif CJK JP</family>
+            <family>Noto Serif CP</family>
+            <family>IPAex明朝</family>
+        </prefer>
+    </alias>
+    <alias>
+        <family>sans-serif</family>
+        <prefer>
+            <family>Noto Sans CJK JP</family>
+            <family>Noto Sans JP</family>
+            <family>IPAexゴシック</family>
+        </prefer>
+    </alias>
+    <alias>
+        <family>monospace</family>
+        <prefer>
+            <family>Noto Sans Mono CJK JP</family>
+        </prefer>
+    </alias>
+</fontconfig>
+EOF
+
+chown -R rstudio:rstudio /home/rstudio/.config/fontconfig

@@ -3,12 +3,15 @@
 
 FROM rocker/tidyverse:4.0.1
 
+# Ubuntuミラーサイトの設定（自動選択）
+RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
+
 # 日本語設定と必要なライブラリ（Rパッケージ用は別途スクリプト内で導入）
 RUN set -x \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         language-pack-ja-base \
-        fonts-ipaexfont \
+     #  fonts-ipaexfont \
         libxt6 \
         ssh \
     && /usr/sbin/update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" \
@@ -24,8 +27,8 @@ RUN chmod 775 my_scripts/*
 RUN /my_scripts/install_r_packages.sh
 RUN /my_scripts/install_pandas.sh
 RUN /my_scripts/install_radian.sh
-#RUN /my_scripts/install_notocjk.sh 
-RUN /my_scripts/install_notojp.sh
+RUN /my_scripts/install_notocjk.sh 
+#RUN /my_scripts/install_notojp.sh
 
 USER rstudio
 RUN /my_scripts/install_tinytex.sh
