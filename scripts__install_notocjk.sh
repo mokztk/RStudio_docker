@@ -60,4 +60,4 @@ cat > /home/rstudio/.config/fontconfig/fonts.conf << EOF
 </fontconfig>
 EOF
 
-chown -R rstudio:rstudio /home/rstudio/.config/fontconfig
+chown -R rstudio:rstudio /home/rstudio/.config
