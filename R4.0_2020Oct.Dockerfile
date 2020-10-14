@@ -1,7 +1,7 @@
 # rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-# 4.0.1 で検証を開始。最終的には 4.0.2 で固定予定
+# 2020-10-15 に RSPM #344 (2020-10-13) に固定されたのでベースを変更
 
-FROM rocker/tidyverse:4.0.1
+FROM rocker/tidyverse:4.0.2
 
 # Ubuntuミラーサイトの設定（自動選択）
 RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
