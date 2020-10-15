@@ -35,7 +35,7 @@ cat > /home/rstudio/.config/fontconfig/fonts.conf << EOF
         <family>serif</family>
         <prefer>
             <family>Noto Serif CJK JP</family>
-            <family>Noto Serif CP</family>
+            <family>Noto Serif JP</family>
             <family>IPAex明朝</family>
         </prefer>
     </alias>
