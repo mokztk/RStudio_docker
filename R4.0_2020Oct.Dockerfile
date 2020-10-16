@@ -33,6 +33,9 @@ RUN /my_scripts/install_notocjk.sh
 USER rstudio
 RUN /my_scripts/install_tinytex.sh
 
+# ${R_HOME}/etc/Renviron のタイムゾーン指定（Etc/UTC）を上書き
+RUN echo "TZ=Asia/Tokyo" >> /home/rstudio/.Renviron
+
 USER root
 ENV LANG=ja_JP.UTF-8 \
     LC_ALL=ja_JP.UTF-8 \
