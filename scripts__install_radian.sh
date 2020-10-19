@@ -13,7 +13,7 @@ if [ ! -e "/usr/bin/pip3" ]; then
 fi
 
 # radianのインストール
-pip3 install -U radian
+pip3 install -U radian jedi
 
 # radianの設定
 cat > /home/rstudio/.radian_profile << EOF
@@ -21,8 +21,10 @@ options(radian.color_scheme = "monokai")
 options(radian.auto_match = TRUE)
 options(radian.prompt = "\033[0;32mr$>\033[0m ")
 options(radian.escape_key_map = list(
+  list(key = "-", value = " <- "),
   list(key = "m", value = " %>% ")
 ))
+options(radian.force_reticulate_python = TRUE)
 EOF
 
 chown rstudio:rstudio /home/rstudio/.radian_profile
