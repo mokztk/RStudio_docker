@@ -40,3 +40,4 @@
     - 容量節約のため、インストール後にDLしたアーカイブは削除する（約300MB分）
 - 環境変数 PASSWORD の仮設定
     - Docker Desktop など `-e PASSWORD=...` が設定できないGUIでも起動テストできるように仮のパスワードを埋め込んでおく
+    - 普段使いのため、`DISABLE_AUTH=true` を埋め込む。パスワードが必要なときは、起動時に `-e DISABLE_AUTH=false`
