@@ -14,15 +14,29 @@ apt-get install -y --no-install-recommends \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
     librsvg2-dev \
-    libxft-dev
+    libxft-dev \
+    libv8-dev \
+    libtbb2 \
+    default-jre \
+    libudunits2-dev \
+    libgdal-dev \
+    gdal-bin \
+    libgeos-dev \
+    libproj-dev \
+    libglpk-dev \
+    libgmp3-dev 
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
-# 先にRSPMにないものをインストール
+# rJava の設定
+R CMD javareconf
+
+# Bioconductor もRSPMからインストールする
+echo "options(BioC_mirror = 'https://packagemanager.rstudio.com/bioconductor')" >> /usr/local/lib/R/etc/Rprofile.site
 Rscript -e "BiocManager::install(c('graph', 'Rgraphviz'))"
 
-# RSPMからインストール
+# CRANパッケージをRSPMからインストール
 install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     pacman \
     tidylog \
@@ -59,6 +73,9 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     tikzDevice
 
 installGithub.r tomwenseleers/export@d29650b
+
+# 最新の状態にする
+Rscript -e "update.packages(ask = FALSE)"
 
 # cleaning
 rm /tmp/downloaded_packages/*
