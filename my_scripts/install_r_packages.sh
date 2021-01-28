@@ -7,16 +7,24 @@ set -x
 # 依存ライブラリの追加
 apt-get update
 apt-get install -y --no-install-recommends \
+    graphviz \
+    libgraphviz-dev \
     imagemagick \
-    imagemagick-6-common \
-    default-jre \
-    libxt6 \
+    libmagick++-dev \
+    libgl1-mesa-dev \
+    libglu1-mesa-dev \
+    librsvg2-dev \
+    libxft-dev \
     libv8-dev \
     libtbb2 \
-    libtcl8.6 \
-    libudunits2-0 \
-    libxft2 \
-    librsvg2-2 
+    default-jre \
+    libudunits2-dev \
+    libgdal-dev \
+    gdal-bin \
+    libgeos-dev \
+    libproj-dev \
+    libglpk-dev \
+    libgmp3-dev 
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
