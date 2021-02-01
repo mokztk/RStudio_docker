@@ -25,6 +25,9 @@ rm -rf /var/lib/apt/lists/*
 # rJava の設定
 R CMD javareconf
 
+# RSPMのcheckpointが変わった場合に対応するため、まずcheckpointの状態まで更新する
+Rscript -e "update.packages(ask = FALSE)"
+
 # Bioconductor もRSPMからインストールする
 echo "options(BioC_mirror = 'https://packagemanager.rstudio.com/bioconductor')" >> /usr/local/lib/R/etc/Rprofile.site
 Rscript -e "BiocManager::install(c('graph', 'Rgraphviz'))"
@@ -42,6 +45,7 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     car \
     survminer \
     prophet \
+    Deducer \
     GGally \
     ggfortify \
     gghighlight \
@@ -54,7 +58,7 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     minidown
 
 # since package "export" was removed from CRAN on 2020-02-21,
-# install dev version from GitHub repo (commit d29650b / 2020-06-22)
+# install dev version from GitHub repo (commit c63141e / 2020-09-09)
 install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     officer \
     rvg \
@@ -63,12 +67,9 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     xtable \
     rgl \
     stargazer \
-    tikzDevice
+    devEMF
 
-installGithub.r tomwenseleers/export@d29650b
-
-# 最新の状態にする
-Rscript -e "update.packages(ask = FALSE)"
+installGithub.r tomwenseleers/export@c63141e
 
 # cleaning
 rm /tmp/downloaded_packages/*
