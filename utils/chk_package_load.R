@@ -4,20 +4,24 @@ res <- sapply(
   # インストールされている全パッケージ
   .packages(all.available = TRUE),
   function(pkg){
-    # 各パッケージの読み込みが成功すれば "ok", 失敗は "BAD"
-    ifelse(
-      tryCatch(
+    temp <- tryCatch(
         # 極力メッセージが表示されないようにパッケージを読み込む
         suppressMessages(
           require(pkg, character.only = TRUE, quietly = TRUE)
         ),
-        # エラー、警告は無視する
-        warning = function(w){ return(FALSE) },
-        error   = function(e){ return(FALSE) }
-      ),
-      "ok", "BAD")
+        # バイナリパッケージビルド時のRのバージョン違いは"ok"とする
+        warning = function(w){
+          ifelse(regexpr("was\ built\ under\ R\ version", w$message) > 0,
+                 "ok", "Warning")
+        },
+        # エラーはとりあえずそのまま "Error" で返す
+        error = function(e){ return("Error") }
+      )
+    
+    # パッケージのロード成功の場合は "ok" で返す
+    temp <- ifelse(temp == "TRUE", "ok", temp)
   })
 
-# 結果が "BAD" のもののみ
-res[res == "BAD"]
-
+# 読み込みに失敗したもの
+res[res == "Warning"]
+res[res == "Error"]
