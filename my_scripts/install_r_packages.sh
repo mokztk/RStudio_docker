@@ -55,7 +55,8 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     tableone \
     gt \
     gtsummary \
-    minidown
+    minidown \
+    palmerpenguins
 
 # since package "export" was removed from CRAN on 2020-02-21,
 # install dev version from GitHub repo (commit c63141e / 2020-09-09)
