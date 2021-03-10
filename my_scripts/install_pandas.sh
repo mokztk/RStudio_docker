@@ -11,5 +11,5 @@ source /rocker_scripts/install_python.sh
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
-# グローバルに pandas を入れておく
-pip install pandas
+# グローバルに pandas と matplotlib/seaborn を入れておく
+pip install pandas seaborn
