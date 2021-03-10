@@ -30,6 +30,7 @@
     - radian で使うために python をセットアップするなら、R と連携できるようにする
     - そのままでは、Python共有ライブラリや Pandas がないので `reticulate` は動かない
     - rocker project で用意されている `/rocker_scripts/install_python.sh` を利用
+    - `Pandas` と `Seaborn` (`matplotlib`) をシステム側に入れておく
 - TinyTeX
     - XeLaTeX + BXjscls で日本語PDFを作成するのに必要なパッケージも予めインストールしてしまう
     - `tinytex::install_tinytex(..., version = "2020.10")` など固定しても、`tlmgr` の更新をしなければ他のパッケージがインストールできない？のでビルド時の最新で
