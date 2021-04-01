@@ -24,14 +24,13 @@
             - 容量節約で `fonts-noto-cjk-extra` は使わず、[Google Noto Fonts](https://www.google.com/get/noto/) からOTF版をダウンロードして必要なものを手動でインストール
 - radian: A 21 century R console
     - https://github.com/randy3k/radian
-    - インストールには、Python 3用の pip (python3-pip) が必要
+    - インストールには、Python 3用の pip が必要
+    - コード補完のためには `jedi` が必要だが、radian 0.51 時点では jedi 0.18 以降には対応していないので 0.17.2 を指定
 - Python
     - radian で使うために python をセットアップするなら、R と連携できるようにする
     - そのままでは、Python共有ライブラリや Pandas がないので `reticulate` は動かない
-        - `# apt-get install -y libpython3.8 python3-pandas`
-        - `# echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpython3.8.conf`
-        - `# ldconfig`
-        - `# Rscript -e "install.packages('reticulate')"`
+    - rocker project で用意されている `/rocker_scripts/install_python.sh` を利用
+    - `Pandas` と `Seaborn` (`matplotlib`) をシステム側に入れておく
 - TinyTeX
     - XeLaTeX + BXjscls で日本語PDFを作成するのに必要なパッケージも予めインストールしてしまう
     - `tinytex::install_tinytex(..., version = "2020.10")` など固定しても、`tlmgr` の更新をしなければ他のパッケージがインストールできない？のでビルド時の最新で

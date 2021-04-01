@@ -1,8 +1,7 @@
 # rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-#   CRAN snapshotをrocker/tidyverse:4.0.2 の RSPM #344 (2020-10-13) から更新する
-#   https://packagemanager.rstudio.com/all/__linux__/focal/1069075 (2021-01-29)
+#   CRAN snapshot: https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-17
 
-FROM rocker/tidyverse:4.0.2
+FROM rocker/tidyverse:4.0.3
 
 # Ubuntuミラーサイトの設定（自動選択）
 RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
@@ -20,9 +19,6 @@ RUN set -x \
     && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# CRAN reposに指定しているRSPMのcheckpointを変更
-RUN sed -i.bak -e 's%focal/344%focal/1069075%g' /usr/local/lib/R/etc/Rprofile.site
 
 # setup script
 # 各スクリプトは改行コード LF(UNIX) でないとエラーになる
