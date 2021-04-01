@@ -20,6 +20,7 @@
         - Noto Sans/Serif JP（[Google Fonts](https://fonts.google.com/) で配布されている日本語サブセット版）
         - Noto Sans/Serif CJK JP
             - Ubuntu の `fonts-noto-cjk` パッケージのみでは XeLaTeX + BXjscls で日本語PDFを作成するのに不足
+            - 自分の用途では、KR, SC, TC のフォントは不要
             - 容量節約で `fonts-noto-cjk-extra` は使わず、[Google Noto Fonts](https://www.google.com/get/noto/) からOTF版をダウンロードして必要なものを手動でインストール
 - radian: A 21 century R console
     - https://github.com/randy3k/radian
@@ -33,11 +34,12 @@
         - `# Rscript -e "install.packages('reticulate')"`
 - TinyTeX
     - XeLaTeX + BXjscls で日本語PDFを作成するのに必要なパッケージも予めインストールしてしまう
-    - `rocker/tidyverse:4.0.2` の `tinytex` ならば、 `install_tinytex(..., version = "2020.09")` など固定するのも選択肢
+    - `tinytex::install_tinytex(..., version = "2020.10")` など固定しても、`tlmgr` の更新をしなければ他のパッケージがインストールできない？のでビルド時の最新で
 - R の頻用パッケージ
     - いつものものに、Causal Inference Slack で勧められたものをいくつか追加
     - https://docs.google.com/spreadsheets/d/175Q_lzNG7P6TT2k9rUzzweoaKdJS_OJZ3lWpUuTfcvc/edit#gid=0
+    - Bioconductor のパッケージも RSPM から入手できるようになった（2020-11-24リリースのRSPM v.1.2.0以降）
     - 容量節約のため、インストール後にDLしたアーカイブは削除する（約300MB分）
 - 環境変数 PASSWORD の仮設定
     - Docker Desktop など `-e PASSWORD=...` が設定できないGUIでも起動テストできるように仮のパスワードを埋め込んでおく
-    - 普段使いのため、`DISABLE_AUTH=true` を埋め込む。パスワードが必要なときは、起動時に `-e DISABLE_AUTH=false`
+    - 更に、普段使いのため `DISABLE_AUTH=true` を埋め込む。パスワードが必要なときは、起動時に `-e DISABLE_AUTH=false`

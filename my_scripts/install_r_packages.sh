@@ -7,22 +7,29 @@ set -x
 # 依存ライブラリの追加
 apt-get update
 apt-get install -y --no-install-recommends \
-    graphviz \
-    libgraphviz-dev \
     imagemagick \
-    libmagick++-dev \
-    libgl1-mesa-dev \
-    libglu1-mesa-dev \
-    librsvg2-dev \
-    libxft-dev
+    imagemagick-6-common \
+    libgl1-mesa-dri \
+    libglu1-mesa \
+    librsvg2-2 \
+    libxft2 \
+    libv8-dev \
+    libtbb2 \
+    default-jre \
+    libudunits2-0 \
+    libtcl8.6
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
-# 先にRSPMにないものをインストール
+# rJava の設定
+R CMD javareconf
+
+# Bioconductor もRSPMからインストールする
+echo "options(BioC_mirror = 'https://packagemanager.rstudio.com/bioconductor')" >> /usr/local/lib/R/etc/Rprofile.site
 Rscript -e "BiocManager::install(c('graph', 'Rgraphviz'))"
 
-# RSPMからインストール
+# CRANパッケージをRSPMからインストール
 install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     pacman \
     tidylog \
@@ -59,6 +66,9 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     tikzDevice
 
 installGithub.r tomwenseleers/export@d29650b
+
+# 最新の状態にする
+Rscript -e "update.packages(ask = FALSE)"
 
 # cleaning
 rm /tmp/downloaded_packages/*
