@@ -1,5 +1,5 @@
 # rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-# 2020-10-15 に RSPM #344 (2020-10-13) に固定されたのでベースを変更
+#   CRAN snapshot: https://packagemanager.rstudio.com/all/__linux__/focal/344 (2020-10-13)
 
 FROM rocker/tidyverse:4.0.2
 
@@ -40,6 +40,7 @@ USER root
 ENV LANG=ja_JP.UTF-8 \
     LC_ALL=ja_JP.UTF-8 \
     TZ=Asia/Tokyo \
-    PASSWORD=password
+    PASSWORD=password \
+    DISABLE_AUTH=true
     
 CMD ["/init"]
