@@ -17,7 +17,11 @@ apt-get install -y --no-install-recommends \
     libtbb2 \
     default-jre \
     libudunits2-0 \
-    libtcl8.6
+    libtcl8.6 \
+    libtk8.6 \
+    libglpk40 \
+    libproj15 \
+    libgdal26
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
@@ -56,7 +60,8 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     gt \
     gtsummary \
     minidown \
-    palmerpenguins
+    palmerpenguins \
+    styler
 
 # since package "export" was removed from CRAN on 2020-02-21,
 # install dev version from GitHub repo (commit c63141e / 2020-09-09)
