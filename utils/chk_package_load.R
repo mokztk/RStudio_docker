@@ -4,7 +4,7 @@
 base_list <- search()
 
 # インストールされている全パッケージを一つずつ試す
-res <- sapply(
+res <- lapply(
   .packages(all.available = TRUE),
   function(pkg){
     temp <- tryCatch(
@@ -14,10 +14,10 @@ res <- sapply(
         ),
         # Warning, Error の場合はその内容を返す。改行はスペースに置換
         warning = function(w){
-          return(paste("[Warning]", gsub("\n", " ", w$message)))
+          return(c("Warning", gsub("\n", " ", w$message)))
         },
         error = function(e){
-          return(paste("[Error]", gsub("\n", " ", e$message)))
+          return(c("Error"  , gsub("\n", " ", e$message)))
         }
     )
     
@@ -26,22 +26,31 @@ res <- sapply(
            function(p) detach(pos = match(p, search())))
     
     # パッケージのロード成功の場合は "ok" で返す
-    temp <- ifelse(pkg %in% temp, "ok", temp)
+    if (pkg %in% temp){
+      return(c(package = pkg,
+               result  = "ok",
+               message = "-"))
+    } else {
+      return(c(package = pkg,
+               result  = temp[1],
+               message = temp[2]))
+    }
   })
 
 # data frame に変換
-res_df <- data.frame(cbind(
-  package = names(res),
-  result  = unname(res)
-))
+res_df <- data.frame(Reduce(rbind, res), row.names = 1:length(res))
+
+# 並べ替え
+res_df$result <- factor(res_df$result, levels = c("Error", "Warning", "ok"))
+res_df <- res_df[order(res_df$result, res_df$package),]
 
 # 文字化け対策
-res_df$result <- gsub("‘", "'", res_df$result)
-res_df$result <- gsub("’", "'", res_df$result)
+res_df$message <- gsub("‘", "'", res_df$message)
+res_df$message <- gsub("’", "'", res_df$message)
 
 # CSVに結果を保存
 write.csv(res_df, file = "~/library_test.csv")
 
 # 読み込みに失敗したもの
-res_df[grepl("\\[Warning\\]", res_df$result),]
-res_df[grepl("\\[Error\\]", res_df$result),]
+res_df[res_df$result == "Warning",]
+res_df[res_df$result == "Error",]
