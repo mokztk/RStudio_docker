@@ -142,7 +142,7 @@ res_df <- .packages(all.available = TRUE) %>%
   select(-chk_loading)
 ```
 
-```{r save_csv, include = FALSE}
+```{r save_csv, eval = FALSE, include = FALSE}
 # 保存
 res_df %>%
   # 並べ替え
