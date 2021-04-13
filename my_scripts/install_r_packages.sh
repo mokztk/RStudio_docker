@@ -65,7 +65,7 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
 
 # R.cache (imported by styler) で使用するキャッシュディレクトリを準備
 mkdir -p /home/rstudio/.cache/R/R.cache
-chmod -R rstudio:rstudio /home/rstudio/.cache
+chown -R rstudio:rstudio /home/rstudio/.cache
 
 # since package "export" was removed from CRAN on 2020-02-21,
 # install dev version from GitHub repo (commit c63141e / 2020-09-09)
