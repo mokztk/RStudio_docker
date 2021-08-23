@@ -31,6 +31,7 @@ RUN /my_scripts/install_notocjk.sh
 #RUN /my_scripts/install_notojp.sh
 
 USER rstudio
+RUN /my_scripts/install_coding_fonts.sh
 RUN /my_scripts/install_tinytex.sh
 RUN /my_scripts/install_tex_packages.sh
 
