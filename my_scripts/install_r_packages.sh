@@ -7,21 +7,39 @@ set -x
 # 依存ライブラリの追加
 apt-get update
 apt-get install -y --no-install-recommends \
+    default-jdk \
+    default-libmysqlclient-dev \
+    gdal-bin \
+    gsfonts \
     imagemagick \
-    imagemagick-6-common \
-    libgl1-mesa-dri \
-    libglu1-mesa \
-    librsvg2-2 \
-    libxft2 \
+    libarchive-dev \
+    libcairo2-dev \
+    libcurl4-openssl-dev \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libgdal-dev \
+    libgeos-dev \
+    libgit2-dev \
+    libgl1-mesa-dev \
+    libglpk-dev \
+    libglu1-mesa-dev \
+    libgmp3-dev \
+    libjpeg-dev \
+    libmagick++-dev \
+    libpng-dev \
+    libpq-dev \
+    libproj-dev \
+    librsvg2-dev \
+    libsasl2-dev \
+    libsqlite3-dev \
+    libssh2-1-dev \
+    libudunits2-dev \
     libv8-dev \
-    libtbb2 \
-    default-jre \
-    libudunits2-0 \
-    libtcl8.6 \
-    libtk8.6 \
-    libglpk40 \
-    libproj15 \
-    libgdal26
+    libxft-dev \
+    libxml2-dev \
+    libxtst6 \
+    libxslt-dev \
+    unixodbc-dev
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
@@ -59,16 +77,22 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     tableone \
     gt \
     gtsummary \
+    flextable \
+    formattable \
+    ftExtra \
     minidown \
+    DiagrammeR \
     palmerpenguins \
     styler
+
+installGithub.r rstudio/webshot2
 
 # R.cache (imported by styler) で使用するキャッシュディレクトリを準備
 mkdir -p /home/rstudio/.cache/R/R.cache
 chown -R rstudio:rstudio /home/rstudio/.cache
 
 # since package "export" was removed from CRAN on 2020-02-21,
-# install dev version from GitHub repo (commit c63141e / 2020-09-09)
+# install dev version from GitHub repo (commit 1afc8e2 / 2021-03-09)
 install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     officer \
     rvg \
@@ -79,7 +103,7 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     stargazer \
     devEMF
 
-installGithub.r tomwenseleers/export@c63141e
+installGithub.r tomwenseleers/export@1afc8e2
 
 # cleaning
 rm /tmp/downloaded_packages/*
