@@ -22,3 +22,5 @@ cp PlemolJP_v0.2.2/PlemolJP35/PlemolJP35-Bold.ttf /home/rstudio/.config/rstudio/
 cp PlemolJP_v0.2.2/PlemolJP35/PlemolJP35-BoldItalic.ttf /home/rstudio/.config/rstudio/fonts/PlemolJP35/700/italic
 rm PlemolJP_v0.2.2.zip
 rm -rf PlemolJP_v0.2.2
+
+chown -R rstudio:rstudio /home/rstudio/.config/rstudio
