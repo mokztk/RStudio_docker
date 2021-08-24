@@ -12,33 +12,37 @@ apt-get install -y --no-install-recommends \
     gdal-bin \
     gsfonts \
     imagemagick \
-    libarchive-dev \
-    libcairo2-dev \
-    libcurl4-openssl-dev \
-    libfontconfig1-dev \
-    libfreetype6-dev \
-    libgdal-dev \
-    libgeos-dev \
-    libgit2-dev \
-    libgl1-mesa-dev \
-    libglpk-dev \
-    libglu1-mesa-dev \
+    imagemagick-6-common \
+    libarchive13 \
+    libcairo2 \
+    libcurl4 \
+    libfontconfig1 \
+    libfreetype6 \
+    libgdal26 \
+    libgeos-c1v5 \
+    libgit2-28 \
+    libgl1-mesa-dri \
+    libglpk40 \
+    libglu1-mesa \
     libgmp3-dev \
-    libjpeg-dev \
-    libmagick++-dev \
-    libpng-dev \
-    libpq-dev \
-    libproj-dev \
-    librsvg2-dev \
-    libsasl2-dev \
-    libsqlite3-dev \
-    libssh2-1-dev \
-    libudunits2-dev \
-    libv8-dev \
-    libxft-dev \
-    libxml2-dev \
+    libjpeg8 \
+    libmagick++-6.q16-8 \
+    libnode64 \
+    libpng16-16 \
+    libpq5 \
+    libproj15 \
+    librsvg2-2 \
+    libsasl2-2 \
+    libsqlite3-0 \
+    libssh2-1 \
+    libtbb2 \
+    libtcl8.6 \
+    libtk8.6 \
+    libudunits2-0 \
+    libxft2 \
+    libxml2 \
     libxtst6 \
-    libxslt-dev \
+    libxslt1.1\
     unixodbc-dev
 
 apt-get clean
