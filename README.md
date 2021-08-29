@@ -12,23 +12,26 @@
 - 自動選択の `mirror://mirrors.ubuntu.com/mirrors.txt` に変更
 - Ref: https://blog.amedama.jp/entry/2019/09/11/234050
 
-### 日本語ロケール
+### 日本語環境、フォント
 
 - Ubuntu の `language-pack-ja`, `language-pack-ja-base`
 - 環境変数で `ja_JP.UTF-8` ロケールとタイムゾーン `Asia/Tokyo` を指定
-- フォントは下記のいずれか
+- グラフ、PDF出力用フォントは下記のいずれか
     - <s>IPAex明朝/ゴシック（Ubuntu の `fonts-ipaexfont` パッケージ）</s>
     - Noto Sans/Serif JP（[Google Fonts](https://fonts.google.com/) で配布されている日本語サブセット版）
     - Noto Sans/Serif CJK JP
         - Ubuntu の `fonts-noto-cjk` パッケージのみでは XeLaTeX + BXjscls で日本語PDFを作成するのに不足あり
         - `fonts-noto-cjk-extra` は KR, SC, TC のフォントを含むので巨大
         - 容量節約のため、[Google Noto Fonts](https://www.google.com/get/noto/) からOTF版をダウンロードして JP の必要なウェイトを手動でインストールする
+- RStudioのエディタで使用するコーディング用フォントとして以下を追加
+    - [JetBrains Mono](https://www.jetbrains.com/ja-jp/lp/mono/) : リガチャで `->` や native pipe `|>` が特別な記号になる
+    - [PlemolJP](https://qiita.com/tawara_/items/0a7b8c50a48ea86b2d91) : IBM Plex Sans JP + IBM Plex Mono. 半角3:全角5のバージョンを採用
 
 ### radian: A 21 century R console
 
 - https://github.com/randy3k/radian
 - インストールには、Python 3用の pip が必要
-- コード補完のためには `jedi` が必要だが、radian 0.51 時点では jedi 0.18 以降には対応していないので 0.17.2 を指定する
+- コード補完のためには `jedi` が必要なのであわせてインストール（radian の新しい版では jedi のバージョン縛りはなくなったよう）
 
 ### Python
 
@@ -47,8 +50,8 @@
 
 - いつものものに、Causal Inference Slack で勧められたものをいくつか追加
 - https://docs.google.com/spreadsheets/d/175Q_lzNG7P6TT2k9rUzzweoaKdJS_OJZ3lWpUuTfcvc/edit#gid=0
-- Bioconductor のパッケージも RSPM から入手できるようになった（2020-11-24リリースのRSPM v.1.2.0以降）
-- 容量節約のため、インストール後にDLしたアーカイブは削除する（約300MB分）
+- Bioconductor のパッケージも RSPM から入手できるようになったが、出自が分かりにくくなるので本家からインストール
+- 容量節約のため、インストール後にDLしたアーカイブは削除する
 
 ### 環境変数 PASSWORD の仮設定
 
@@ -58,11 +61,12 @@
 ## History
 
 - **2020-11-02** [Gist: mokztk/R4.0_2020Oct.Docerfile](https://gist.github.com/mokztk/be9e0d8982fd32987dbb5c9552a9d4a7) から改めてレポジトリとして編集を開始
-- **2020-11-02** 🔖[4.0.2_2020Oct](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.2_2020Oct) : `rocker/tidyverse:4.0.2` 対応版 
-- **2021-01-14** 🔖[4.0.2_update2101](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.2_update2101) : 4.0.2_2020Oct の修正版 
-- **2021-03-06** 🔖[4.0.2_2021Jan](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.2_2021Jan) : `rocker/tidyverse:4.0.2` ベースのままパッケージを更新
-- **2021-03-11** 🔖[4.0.3_2020Feb](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.3_2021Feb) : `rocker/tidyverse:4.0.3` にあわせて更新
+- **2020-11-02** :bookmark:[4.0.2_2020Oct](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.2_2020Oct) : `rocker/tidyverse:4.0.2` 対応版 
+- **2021-01-14** :bookmark:[4.0.2_update2101](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.2_update2101) : 4.0.2_2020Oct の修正版 
+- **2021-03-06** :bookmark:[4.0.2_2021Jan](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.2_2021Jan) : `rocker/tidyverse:4.0.2` ベースのままパッケージを更新
+- **2021-03-11** :bookmark:[4.0.3_2020Feb](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.3_2021Feb) : `rocker/tidyverse:4.0.3` にあわせて更新
 - **2021-04-01**  ブランチ構成を再編（GitHub flow モドキ）
-- **2021-04-04** 🔖[4.0.3_TL2020](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.3_TL2020) : TeX を TeX Live 2020 (frozen) に固定
-- **2021-04-13** 🔖[4.0.3_update2104](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.3_update2104) : 4.0.3_TL2020 の修正版
+- **2021-04-04** :bookmark:[4.0.3_TL2020](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.3_TL2020) : TeX を TeX Live 2020 (frozen) に固定
+- **2021-04-13** :bookmark:[4.0.3_update2104](https://github.com/mokztk/RStudio_docker/releases/tag/4.0.3_update2104) : 4.0.3_TL2020 の修正版
+- **2021-08-30** :bookmark:[4.1.0_2021Aug](https://github.com/mokztk/RStudio_docker/releases/tag/4.1.0_2021Aug) : `rocker/tidyverse:4.1.0` にあわせて更新。coding font 追加
 
