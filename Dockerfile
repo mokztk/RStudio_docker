@@ -1,7 +1,7 @@
 # rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-#   CRAN snapshot: https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-17
+#   CRAN snapshot: https://packagemanager.rstudio.com/cran/__linux__/focal/2021-08-09
 
-FROM rocker/tidyverse:4.0.3
+FROM rocker/tidyverse:4.1.0
 
 # Ubuntuミラーサイトの設定（自動選択）
 RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
@@ -29,6 +29,7 @@ RUN /my_scripts/install_pandas.sh
 RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notocjk.sh 
 #RUN /my_scripts/install_notojp.sh
+RUN /my_scripts/install_coding_fonts.sh
 
 USER rstudio
 RUN /my_scripts/install_tinytex.sh

@@ -10,7 +10,7 @@ if [ ! -e "/usr/bin/pip3" ]; then
 fi
 
 # radianのインストール
-pip install radian jedi==0.17.2
+pip install radian jedi
 
 # radianの設定
 cat > /home/rstudio/.radian_profile << EOF

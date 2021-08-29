@@ -7,21 +7,43 @@ set -x
 # 依存ライブラリの追加
 apt-get update
 apt-get install -y --no-install-recommends \
+    default-jdk \
+    default-libmysqlclient-dev \
+    gdal-bin \
+    gsfonts \
     imagemagick \
     imagemagick-6-common \
+    libarchive13 \
+    libcairo2 \
+    libcurl4 \
+    libfontconfig1 \
+    libfreetype6 \
+    libgdal26 \
+    libgeos-c1v5 \
+    libgit2-28 \
     libgl1-mesa-dri \
+    libglpk40 \
     libglu1-mesa \
+    libgmp3-dev \
+    libjpeg8 \
+    libmagick++-6.q16-8 \
+    libnode64 \
+    libpng16-16 \
+    libpq5 \
+    libproj15 \
     librsvg2-2 \
-    libxft2 \
-    libv8-dev \
+    libsasl2-2 \
+    libsqlite3-0 \
+    libssh2-1 \
     libtbb2 \
-    default-jre \
-    libudunits2-0 \
     libtcl8.6 \
     libtk8.6 \
-    libglpk40 \
-    libproj15 \
-    libgdal26
+    libudunits2-0 \
+    libxft2 \
+    libxml2 \
+    libxtst6 \
+    libxslt1.1\
+    unixodbc-dev
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
@@ -32,8 +54,7 @@ R CMD javareconf
 # RSPMのcheckpointが変わった場合に対応するため、まずcheckpointの状態まで更新する
 Rscript -e "update.packages(ask = FALSE)"
 
-# Bioconductor もRSPMからインストールする
-echo "options(BioC_mirror = 'https://packagemanager.rstudio.com/bioconductor')" >> /usr/local/lib/R/etc/Rprofile.site
+# Bioconductor のパッケージ
 Rscript -e "BiocManager::install(c('graph', 'Rgraphviz'))"
 
 # CRANパッケージをRSPMからインストール
@@ -59,16 +80,22 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     tableone \
     gt \
     gtsummary \
+    flextable \
+    formattable \
+    ftExtra \
     minidown \
+    DiagrammeR \
     palmerpenguins \
     styler
+
+installGithub.r rstudio/webshot2
 
 # R.cache (imported by styler) で使用するキャッシュディレクトリを準備
 mkdir -p /home/rstudio/.cache/R/R.cache
 chown -R rstudio:rstudio /home/rstudio/.cache
 
 # since package "export" was removed from CRAN on 2020-02-21,
-# install dev version from GitHub repo (commit c63141e / 2020-09-09)
+# install dev version from GitHub repo (commit 1afc8e2 / 2021-03-09)
 install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     officer \
     rvg \
@@ -79,7 +106,7 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     stargazer \
     devEMF
 
-installGithub.r tomwenseleers/export@c63141e
+installGithub.r tomwenseleers/export@1afc8e2
 
 # cleaning
 rm /tmp/downloaded_packages/*
