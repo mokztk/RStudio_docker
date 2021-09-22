@@ -16,6 +16,10 @@
     - パッケージの読み込みテスト（chk_package_load.R と同様）
     - Python/TeXのインストール状況
 
+## Image_test_mini.Rmd
+
+- 上記を minidown::mini_document() を使って軽量化したもの
+
 ## tex_test.Rmd
 
 - RMarkdown と XeLaTeX による日本語PDF作成のテスト
