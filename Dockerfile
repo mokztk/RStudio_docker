@@ -1,7 +1,7 @@
 # rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-#   CRAN snapshot: https://packagemanager.rstudio.com/cran/__linux__/focal/2021-08-09
+#   CRAN snapshot: https://packagemanager.rstudio.com/cran/__linux__/focal/2021-10-29
 
-FROM rocker/tidyverse:4.1.0
+FROM rocker/tidyverse:4.1.1
 
 # Ubuntuミラーサイトの設定（自動選択）
 RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
