@@ -24,7 +24,7 @@
     - 過去コードの文字化け回避のため、Noto Sans/Serif CJK JP を Noto Sans/Serif JP の別名として登録しておく
 - RStudioのエディタで使用するコーディング用フォントとして以下を追加
     - [JetBrains Mono](https://www.jetbrains.com/ja-jp/lp/mono/) : リガチャで `->` や native pipe `|>` が特別な記号になる
-    - [PlemolJP](https://qiita.com/tawara_/items/0a7b8c50a48ea86b2d91) : IBM Plex Sans JP + IBM Plex Mono。3:5版ではなく通常版を使用
+    - [PlemolJP](https://qiita.com/tawara_/items/0a7b8c50a48ea86b2d91) : IBM Plex Sans JP + IBM Plex Mono。3:5版ではなく1:2のConsole版を使用
 
 ### radian: A 21 century R console
 
