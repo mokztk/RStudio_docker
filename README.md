@@ -16,18 +16,15 @@
 
 - Ubuntu の `language-pack-ja`, `language-pack-ja-base`
 - 環境変数で `ja_JP.UTF-8` ロケールとタイムゾーン `Asia/Tokyo` を指定
-- グラフ、PDF出力用フォントとして Noto フォントを追加
-    - Noto Sans/Serif CJK JP
-        - Ubuntu の `fonts-noto-cjk` パッケージのみでは XeLaTeX + BXjscls で日本語PDFを作成するのに不足あり
-        - `fonts-noto-cjk-extra` は KR, SC, TC のフォントも含むので巨大
-        - [Google Noto Fonts](https://www.google.com/get/noto/) は Google Fonts にリダイレクトされるようになった
-    - **Noto Sans/Serif JP**
-        - 現在、[Noto Home - Google Fonts](https://fonts.google.com/noto) で配布されているのは "CJK" なしの Noto Sans/Serif JP
-        - Google Fonts からダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントを手動でインストール
-        - 過去コードの文字化け回避のため、Noto Sans/Serif CJK JP を Noto Sans/Serif JP の別名として登録
+- グラフ、PDF出力用フォントとして Noto Sans/Serif JP （"CJK" なし）を追加
+    - Ubuntu の `fonts-noto-cjk` パッケージのみでは XeLaTeX + BXjscls で日本語PDFを作成するのに不足するウェイトがある
+    - `fonts-noto-cjk-extra` は KR, SC, TC のフォントも含むので用途に対して大きすぎる（インストールサイズ 300MBほど）
+    - 現在、[Noto Home - Google Fonts](https://fonts.google.com/noto) で配布されているのは "CJK" なしの Noto Sans/Serif JP のみ
+    - Google Fonts からダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントを手動でインストールする
+    - 過去コードの文字化け回避のため、Noto Sans/Serif CJK JP を Noto Sans/Serif JP の別名として登録しておく
 - RStudioのエディタで使用するコーディング用フォントとして以下を追加
     - [JetBrains Mono](https://www.jetbrains.com/ja-jp/lp/mono/) : リガチャで `->` や native pipe `|>` が特別な記号になる
-    - [PlemolJP](https://qiita.com/tawara_/items/0a7b8c50a48ea86b2d91) : IBM Plex Sans JP + IBM Plex Mono. 3:5版ではなく通常版を使用
+    - [PlemolJP](https://qiita.com/tawara_/items/0a7b8c50a48ea86b2d91) : IBM Plex Sans JP + IBM Plex Mono。3:5版ではなく通常版を使用
 
 ### radian: A 21 century R console
 
