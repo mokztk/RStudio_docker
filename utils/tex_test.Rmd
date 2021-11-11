@@ -6,7 +6,7 @@ output:
     keep_tex: false
     toc: false
 documentclass: bxjsarticle
-classoption: a4paper,xelatex,ja=standard,jafont=noto
+classoption: a4paper,xelatex,ja=standard,jafont=noto-jp
 ---
 
 ```{r setup, include=FALSE}
@@ -14,7 +14,7 @@ library(tidyverse)
 library(knitr)
 
 # グラフはcairo_pdfで出力するようにして日本語フォントを指定
-knitr::opts_chunk$set(dev="cairo_pdf", dev.args=list(family="Noto Sans CJK JP"))
+knitr::opts_chunk$set(dev="cairo_pdf", dev.args=list(family="Noto Sans JP"))
 ```
 
 ## テスト
