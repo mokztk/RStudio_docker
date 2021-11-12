@@ -41,9 +41,11 @@
 
 ### TinyTeX
 
-- XeLaTeX + BXjscls で日本語PDFを作成するのに必要なパッケージも予めインストールしてしまう
 - 2021年3月末で TeX Live 2020 が更新終了（frozen）となったので、日本語 TeX 開発コミュニティ texjp.org のサーバにあるTeX Live 2020 のアーカイブを利用するようにする
 - TinyTeX はそれに合わせて "2021.03" をインストールする
+- TinyTeX のセットアップまで行い、日本語PDFを作成するのに必要なパッケージは必要時にインストールすることにした
+    - 初回に日本語PDFを作成するときに自動でインストールされる（XeLaTeX + BXjscls の文書で約50個）
+    - `/my_scripts/install_tex_packages.sh` をユーザー rstudio 権限で実行してインストールすることも可能
 
 ### R の頻用パッケージ
 
