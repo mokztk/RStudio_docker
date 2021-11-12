@@ -88,7 +88,8 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     palmerpenguins \
     styler
 
-installGithub.r rstudio/webshot2
+# installGithub.r rstudio/webshot2
+Rscript -e "remotes::install_github('rstudio/webshot2')"
 
 # R.cache (imported by styler) で使用するキャッシュディレクトリを準備
 mkdir -p /home/rstudio/.cache/R/R.cache
@@ -106,7 +107,8 @@ install2.r --error --deps TRUE --ncpus -1 --skipinstalled \
     stargazer \
     devEMF
 
-installGithub.r tomwenseleers/export@1afc8e2
-
+# installGithub.r tomwenseleers/export@1afc8e2
+Rscript -e "remotes::install_github('tomwenseleers/export@1afc8e2')"
+ 
 # cleaning
 rm /tmp/downloaded_packages/*

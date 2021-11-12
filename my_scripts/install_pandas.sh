@@ -12,4 +12,4 @@ apt-get clean
 rm -rf /var/lib/apt/lists/*
 
 # グローバルに pandas と matplotlib/seaborn を入れておく
-pip install pandas seaborn
+pip install --no-cache-dir pandas seaborn
