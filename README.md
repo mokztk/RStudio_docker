@@ -19,21 +19,21 @@
 - 以下の日本語フォントを導入
     - **Noto Sans/Serif JP**（"CJK"なし）
         - `fonts-noto-cjk-extra` は KR, SC, TC のフォントも含むので用途に対して大きすぎる（インストールサイズ 300MBほど）
-        - Google Fonts からダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントを手動でインストール
+        - [Google Fonts](https://fonts.google.com/) からダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントを手動でインストール
         - serif/sans の標準日本語フォントとして設定
         - 過去コードの文字化け回避のため、Noto Sans/Serif CJK JP を Noto Sans/Serif JP の別名として登録しておく
     - **[UDEV Gothic](https://github.com/yuru7/udev-gothic)**
         - BIZ UD Gothic + JetBrains Mono の合成フォント
-        - 半角：全角 3:5版ではなく、通常の1:2でリガチャ有効のバージョン（UDEVGothicLG-*.ttf）を使用
+        - 半角:全角 3:5版ではなく、通常の1:2でリガチャ有効のバージョン（UDEVGothicLG-*.ttf）を使用
         - RStudio Serverのエディタ用カスタムフォントとして導入
-    - **原ノ味フォント**
-        - TinyTeX (LuaLaTeX, XeLaTeX) で日本語PDFを作成するために `tinytex::tlmgr_install()` で導入
-        - 予めインストールしておかないと、Knit to PDF 時の自動インストールで躓く
+    - **[原ノ味フォント](https://github.com/trueroad/HaranoAjiFonts)**
+        - TinyTeX (LuaLaTeX, XeLaTeX) で日本語PDFを作成するために `tinytex::tlmgr_install("haranoaji")` で導入
+        - 予めインストールしておかないと、[Knit to PDF] 時の自動インストールで躓く
 
 ### R の頻用パッケージ
 
 - これまでインストールしていたものを整理して利用頻度が少ない大物を中心に削除
-- 容量節約のため、`--deps TRUE`指定（依存関係Suggestsまで含める）は外し、インストール後にDLしたアーカイブは削除
+- 容量節約のため、`--deps TRUE`指定（依存関係 Suggestsまで含める）は外し、インストール後にDLしたアーカイブは削除
 
 ### Quarto
 - https://quarto.org/
@@ -44,7 +44,7 @@
 
 - https://github.com/randy3k/radian
 - rocker project で用意されている `/rocker_scripts/install_python.sh` を利用して Python3 をインストール
-- R から Python を使えるよう、`reticulate` に必要な Pandas などもインストール（`Seaborn`(`matplotlib`) を含む）
+- R から Python を使えるよう、`reticulate` に必要な Pandas などもインストール（`Seaborn` も含む）
 - radian のコード補完のためには `jedi` が必要なのであわせてインストール
 
 ### TinyTeX
@@ -74,4 +74,4 @@
 - **2021-08-30** :bookmark:[4.1.0_2021Aug](https://github.com/mokztk/RStudio_docker/releases/tag/4.1.0_2021Aug) : `rocker/tidyverse:4.1.0` にあわせて更新。coding font 追加
 - **2021-09-22** :bookmark:[4.1.0_2021Aug_r2](https://github.com/mokztk/RStudio_docker/releases/tag/4.1.0_2021Aug_r2) : PlemolJP フォントを最新版に差し替え（記号のズレ対策）
 - **2021-11-11** :bookmark:[4.1.1_2021Oct](https://github.com/mokztk/RStudio_docker/releases/tag/4.1.1_2021Oct) : `rocker/tidyverse:4.1.1` にあわせて更新。フォント周りを中心に整理
-- **2022-06-07** :bookmark:[4.2.0_2022Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun) : ベースを `rocker/tidyverse:4.2.0` （2022-06-02版）に更新。Quartoの導入、Rパッケージの整理、coding fontの変更
+- **2022-06-07** :bookmark:[4.2.0_2022Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun) : ベースを `rocker/tidyverse:4.2.0` （2022-06-02版）に更新。Quartoの導入、フォントの変更など
