@@ -1,16 +1,21 @@
 #!/bin/bash
 set -x
 
-# Quarto のインストール
+# rocker/tidyvese 内に RStudio server のバンドルですでにインストールされているものを
+# /rocker_scripts/install_quarto.sh でセットアップする
 
-apt-get update
+QUARTO_VERSION="default" /rocker_scripts/install_quarto.sh
 
-QUARTO_DEB="quarto-0.9.504-linux-amd64.deb"
-wget -q https://github.com/quarto-dev/quarto-cli/releases/download/v0.9.504/${QUARTO_DEB}
-gdebi -n $QUARTO_DEB
-rm $QUARTO_DEB
+# R の {quarto} パッケージをインストール
+# Ref: https://github.com/rocker-org/rocker-versioned2/commit/75dd95c6cee7da29ceed363b9fe4823a12f575f8
 
-apt-get clean
-rm -rf /var/lib/apt/lists/*
+install2.r --error --ncpus -1 --skipinstalled \
+    knitr \
+    quarto
 
-install2.r --error --ncpus -1 --skipinstalled quarto
+# Clean up
+rm -rf /tmp/downloaded_packages
+
+## Strip binary installed lybraries from RSPM
+## https://github.com/rocker-org/rocker-versioned2/issues/340
+strip /usr/local/lib/R/site-library/*/libs/*.so

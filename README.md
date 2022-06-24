@@ -34,11 +34,12 @@
 
 - これまでインストールしていたものを整理して利用頻度が少ない大物を中心に削除
 - 容量節約のため、`--deps TRUE`指定（依存関係 Suggestsまで含める）は外し、インストール後にDLしたアーカイブは削除
+- rockerのスクリプトに倣い、インストール後にRSPMのバイナリパッケージで導入された *.so を整理
 
 ### Quarto
 - https://quarto.org/
-- CRANレポジトリに合わせて、2022-06-02時点の最新版 Preview v0.9 Build 504 を使用
-- Rパッケージ `quarto` もインストール
+- `/rocker_scripts/install_quarto.sh` で RStudio にバンドルされているもの（`QUARTO_VERSION=default`）をインストール
+- Rパッケージ `quarto` もインストールし RStudio で使えるようにする
 
 ### Python3 & radian: A 21 century R console
 
@@ -75,3 +76,4 @@
 - **2021-09-22** :bookmark:[4.1.0_2021Aug_r2](https://github.com/mokztk/RStudio_docker/releases/tag/4.1.0_2021Aug_r2) : PlemolJP フォントを最新版に差し替え（記号のズレ対策）
 - **2021-11-11** :bookmark:[4.1.1_2021Oct](https://github.com/mokztk/RStudio_docker/releases/tag/4.1.1_2021Oct) : `rocker/tidyverse:4.1.1` にあわせて更新。フォント周りを中心に整理
 - **2022-06-07** :bookmark:[4.2.0_2022Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun) : ベースを `rocker/tidyverse:4.2.0` （2022-06-02版）に更新。Quartoの導入、フォントの変更など
+- **2022-06-24** :bookmark:[4.2.0_2022Jun_2](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun_2) : ベースを `rocker/tidyverse:4.2.0` snapshot確定版に更新。Quarto関係を修正

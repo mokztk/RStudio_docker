@@ -19,6 +19,8 @@ apt-get install -y --no-install-recommends \
     libjpeg-dev \
     libpng-dev \
     libssl-dev \
+    libtcl8.6 \
+    libtk8.6 \
     libv8-dev \
     libxft-dev \
     libxml2-dev \
@@ -26,9 +28,6 @@ apt-get install -y --no-install-recommends \
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
-
-# rJava の設定
-R CMD javareconf
 
 # RSPMのcheckpointが変わった場合に対応するため、まずcheckpointの状態まで更新する
 Rscript -e "update.packages(ask = FALSE)"
@@ -84,5 +83,10 @@ install2.r --error --ncpus -1 --skipinstalled \
 # installGithub.r tomwenseleers/export@1afc8e2
 Rscript -e "remotes::install_github('tomwenseleers/export@1afc8e2')"
  
-# cleaning
-rm /tmp/downloaded_packages/*
+# Clean up
+# Ref: https://github.com/rocker-org/rocker-versioned2/commit/75dd95c6cee7da29ceed363b9fe4823a12f575f8
+rm -rf /tmp/downloaded_packages
+
+## Strip binary installed lybraries from RSPM
+## https://github.com/rocker-org/rocker-versioned2/issues/340
+strip /usr/local/lib/R/site-library/*/libs/*.so
