@@ -1,3 +1,6 @@
+#!/bin/bash
+set -x
+
 # Install coding fonts (for RStudio Server)
 
 ## UDEV Gothic LG (BIZ UD Gothic + JetBrains Mono)
