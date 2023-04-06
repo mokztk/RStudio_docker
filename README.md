@@ -1,6 +1,7 @@
 # About this image
 
 - **rocker/tidyverse** に日本語設定、頻用パッケージ、TinyTeX関係をインストールした作業用イメージ
+    - ARM64 版も rocker/r-ver を出発点に rocker/tidyverse ＋日本語設定、頻用パッケージを導入する
 - RStudio server を開くまでもないような作業用に、[radian: A 21 century R console](https://github.com/randy3k/radian)を追加する
 - `reticulate` で最低限の python 連携も使用できるようにする
 - [rocker-org/rocker-versioned2](https://github.com/rocker-org/rocker-versioned2) のように、目的別のスクリプトを使って Dockerfile 自体は極力シンプルにしてみる
@@ -9,8 +10,8 @@
 
 ### Ubuntu mirror
 
-- 自動選択の `mirror://mirrors.ubuntu.com/mirrors.txt` に変更
-- Ref: https://blog.amedama.jp/entry/2019/09/11/234050
+- x86_64 の場合は日本のミラーサーバーで一番回線が太い ICSCoE（IPA産業サイバーセキュリティセンター）に変更
+- arm64 は置かれていないミラーサーバーも多いので変更しない
 
 ### 日本語環境、フォント
 
@@ -32,14 +33,15 @@
 
 ### R の頻用パッケージ
 
-- これまでインストールしていたものを整理して利用頻度が少ない大物を中心に削除
 - 容量節約のため、`--deps TRUE`指定（依存関係 Suggestsまで含める）は外し、インストール後にDLしたアーカイブは削除
 - rockerのスクリプトに倣い、インストール後にRSPMのバイナリパッケージで導入された *.so を整理
+- arm64版では、容量の大きな dbplyr database backend は省略
 
 ### Quarto
 - https://quarto.org/
-- `/rocker_scripts/install_quarto.sh` で RStudio にバンドルされているもの（`QUARTO_VERSION=default`）をインストール
-- Rパッケージ `quarto` もインストールし RStudio で使えるようにする
+- x86_64 では `/rocker_scripts/install_quarto.sh` で RStudio にバンドルされているもの（`QUARTO_VERSION=default`）をインストール
+- arm64 では手動で v1.3.302 Release Candidate Build をインストール
+- Rパッケージ `quarto` もインストールし R Console からも使えるようにする（arm版では RStudio 上でうまく変換できない）
 
 ### Python3 & radian: A 21 century R console
 
@@ -50,12 +52,13 @@
 
 ### TinyTeX
 
-- 2022年3月末で TeX Live 2021 が更新終了（frozen）となったので、日本語 TeX 開発コミュニティ texjp.org のサーバにあるTeX Live 2021 のアーカイブを利用する
-- TinyTeX はそれに合わせて "2022.03" をインストール
+- 2023年3月で TeX Live 2022 が更新終了（frozen）となったので、日本語 TeX 開発コミュニティ texjp.org のサーバにあるTeX Live 2022 のアーカイブを利用する
+- TinyTeX はそれに合わせて "2023.03" をインストール
 - TinyTeX のセットアップまで行い、その他に必要なパッケージは自動インストールに任せる
     - 初回に日本語PDFを作成するときに自動でインストールされる（XeLaTeX + BXjscls の文書で約50個）
     - LuaLaTeXの場合、原ノ味フォントはインストールしておかないと進まなくなるので `haranoaji` だけ手動で入れておく
     - `/my_scripts/install_tex_packages.sh` をユーザー rstudio 権限で実行してインストールすることも可能
+- arm64 は非対応なので、セットアップは行わない
 
 ### 環境変数 PASSWORD の仮設定
 
@@ -77,3 +80,4 @@
 - **2021-11-11** :bookmark:[4.1.1_2021Oct](https://github.com/mokztk/RStudio_docker/releases/tag/4.1.1_2021Oct) : `rocker/tidyverse:4.1.1` にあわせて更新。フォント周りを中心に整理
 - **2022-06-07** :bookmark:[4.2.0_2022Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun) : ベースを `rocker/tidyverse:4.2.0` （2022-06-02版）に更新。Quartoの導入、フォントの変更など
 - **2022-06-24** :bookmark:[4.2.0_2022Jun_2](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun_2) : ベースを `rocker/tidyverse:4.2.0` snapshot確定版に更新。Quarto関係を修正
+- **2023-04-06** :bookmark:[4.2.2_2023Mar](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.2_2023Mar) : `rocker/tidyverse:4.2.2` にあわせて更新。ARM64版を試作
