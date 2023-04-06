@@ -1,0 +1,80 @@
+# rocker/r-ver:4.2.2 (ARM) をベースにRStudio, tidyverse, 日本語設定等を追加する
+#   ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/2023-03-14
+
+# rocker/tidyverse:4.2.2 の Dockerfile を参考にベースを構築
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.2.2.Dockerfile
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.2.2.Dockerfile
+
+FROM --platform=arm64 rocker/r-ver:4.2.2 AS tidyverse
+
+ENV S6_VERSION=v2.1.0.2
+ENV RSTUDIO_VERSION=2023.03.0+386
+ENV DEFAULT_USER=rstudio
+ENV PANDOC_VERSION=default
+
+RUN /rocker_scripts/install_rstudio.sh
+RUN /rocker_scripts/install_pandoc.sh
+
+# arm64 では rocker 公式スクリプトでQuarto のインストールはスキップされるので、Release Candidate Builds をインストール
+RUN set -x \
+    && apt-get update \
+    && wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.302/quarto-1.3.302-linux-arm64.deb -O quarto.deb \
+    && dpkg -i quarto.deb \
+    && rm quarto.deb \
+    && quarto check install \
+    && install2.r --error --skipinstalled knitr quarto \
+    && rm -rf /tmp/downloaded_packages \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY my_scripts/install_tidyverse.sh /my_scripts/install_tidyverse.sh
+RUN chmod 775 /my_scripts/install_tidyverse.sh \
+    && /my_scripts/install_tidyverse.sh
+
+EXPOSE 8787
+
+CMD ["/init"]
+
+# 上記の rocker/tidyverse 相当のイメージに日本語設定などを追加
+# arm 非対応なので TinyTeX のセットアップは行わない
+
+FROM tidyverse
+
+# 日本語設定と必要なライブラリ（Rパッケージ用は別途スクリプト内で導入）
+RUN set -x \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        language-pack-ja-base \
+        libxt6 \
+        ssh \
+    && /usr/sbin/update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" \
+    && /bin/bash -c "source /etc/default/locale" \
+    && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# setup script
+# 各スクリプトは改行コード LF(UNIX) でないとエラーになる
+COPY my_scripts /my_scripts
+RUN chmod 775 my_scripts/*
+RUN /my_scripts/install_r_packages.sh
+RUN /my_scripts/install_radian.sh
+RUN /my_scripts/install_notojp.sh
+RUN /my_scripts/install_coding_fonts.sh
+
+USER rstudio
+
+# ${R_HOME}/etc/Renviron のタイムゾーン指定（Etc/UTC）を上書き
+RUN echo "TZ=Asia/Tokyo" >> /home/rstudio/.Renviron
+
+# 検証用ファイル
+COPY --chown=rstudio:rstudio utils /home/rstudio/utils
+
+USER root
+ENV LANG=ja_JP.UTF-8 \
+    LC_ALL=ja_JP.UTF-8 \
+    TZ=Asia/Tokyo \
+    PASSWORD=password \
+    DISABLE_AUTH=true
+
+CMD ["/init"]

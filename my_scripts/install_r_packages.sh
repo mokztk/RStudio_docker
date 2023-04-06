@@ -16,6 +16,7 @@ apt-get install -y --no-install-recommends \
     libglpk-dev \
     libglu1-mesa-dev \
     libgmp3-dev \
+    libicu-dev \
     libjpeg-dev \
     libpng-dev \
     libssl-dev \
@@ -43,8 +44,9 @@ install2.r --error --ncpus -1 --skipinstalled \
     pROC \
     cmprsk \
     psych \
-    clinfun \
     car \
+    mice \
+    ggmice \
     survminer \
     GGally \
     ggfortify \
@@ -62,27 +64,13 @@ install2.r --error --ncpus -1 --skipinstalled \
     DiagrammeR \
     palmerpenguins \
     styler \
-    svglite
+    svglite \
+    export
 
 # R.cache (imported by styler) で使用するキャッシュディレクトリを準備
 mkdir -p /home/rstudio/.cache/R/R.cache
 chown -R rstudio:rstudio /home/rstudio/.cache
 
-# since package "export" was removed from CRAN on 2020-02-21,
-# install dev version from GitHub repo (commit 1afc8e2 / 2021-03-09)
-install2.r --error --ncpus -1 --skipinstalled \
-    officer \
-    rvg \
-    openxlsx \
-    flextable \
-    xtable \
-    rgl \
-    stargazer \
-    devEMF
-
-# installGithub.r tomwenseleers/export@1afc8e2
-Rscript -e "remotes::install_github('tomwenseleers/export@1afc8e2')"
- 
 # Clean up
 # Ref: https://github.com/rocker-org/rocker-versioned2/commit/75dd95c6cee7da29ceed363b9fe4823a12f575f8
 rm -rf /tmp/downloaded_packages
