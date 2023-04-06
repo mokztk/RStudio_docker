@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # TinyTex本体のインストール
-# 当面、FREEZEとなった TeXLive 2021 アーカイブを利用する
+# 当面、FREEZEとなった TeXLive 2022 アーカイブを利用する
 
-Rscript -e 'tinytex::install_tinytex(dir = "/home/rstudio/.TinyTeX/", version = "2022.03", repository = "https://texlive.texjp.org/2021/tlnet")'
+Rscript -e 'tinytex::install_tinytex(dir = "/home/rstudio/.TinyTeX/", version = "2023.03", repository = "https://texlive.texjp.org/2022/tlnet")'
 
 # 原ノ味フォントをインストールしておく（その他は、必要時に tlmgr で自動的にインストールされる）
 Rscript -e 'tinytex::tlmgr_install("haranoaji")'
