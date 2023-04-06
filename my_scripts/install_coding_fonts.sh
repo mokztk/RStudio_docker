@@ -7,12 +7,12 @@ set -x
 ##   https://github.com/yuru7/udev-gothic
 mkdir -p /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400/italic
 mkdir -p /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/700/italic
-wget -q https://github.com/yuru7/udev-gothic/releases/download/v1.0.0/UDEVGothic_v1.0.0.zip
-unzip UDEVGothic_v1.0.0.zip
-cp UDEVGothic_v1.0.0/UDEVGothicLG-Regular.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400
-cp UDEVGothic_v1.0.0/UDEVGothicLG-Italic.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400/italic
-cp UDEVGothic_v1.0.0/UDEVGothicLG-Bold.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/700
-cp UDEVGothic_v1.0.0/UDEVGothicLG-BoldItalic.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/700/italic
+wget -q https://github.com/yuru7/udev-gothic/releases/download/v1.1.0/UDEVGothic_v1.1.0.zip -O UDEVGothic.zip
+unzip UDEVGothic.zip
+cp UDEVGothic/UDEVGothicLG-Regular.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400
+cp UDEVGothic/UDEVGothicLG-Italic.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400/italic
+cp UDEVGothic/UDEVGothicLG-Bold.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/700
+cp UDEVGothic/UDEVGothicLG-BoldItalic.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/700/italic
 mv /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/ /home/rstudio/.config/rstudio/fonts/UDEV\ Gothic\ LG/
 rm -rf UDEVGothic*
 
