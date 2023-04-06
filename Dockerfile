@@ -1,11 +1,11 @@
 # rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-#   ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/2022-06-22
+#   ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/2023-03-14
 
-FROM rocker/tidyverse:4.2.0
-#FROM rocker/tidyverse@sha256:f50a823199a9c98b68f5393c3282dd978d8bfc3efe3a59f13f8b789a49daf4af
+FROM rocker/tidyverse:4.2.2
 
-# Ubuntuミラーサイトの設定（自動選択）
-RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
+# Ubuntuミラーサイトの設定
+#RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
+RUN sed -i.bak -e "s%http://[^ ]\+%http://ftp.udx.icscoe.jp/Linux/ubuntu/%g" /etc/apt/sources.list
 
 # 日本語設定と必要なライブラリ（Rパッケージ用は別途スクリプト内で導入）
 RUN set -x \
