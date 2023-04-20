@@ -8,7 +8,7 @@ set -x
 mkdir -p /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400/italic
 mkdir -p /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/700/italic
 wget -q https://github.com/yuru7/udev-gothic/releases/download/v1.1.0/UDEVGothic_v1.1.0.zip -O UDEVGothic.zip
-unzip UDEVGothic.zip
+unzip -j -d UDEVGothic UDEVGothic.zip
 cp UDEVGothic/UDEVGothicLG-Regular.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400
 cp UDEVGothic/UDEVGothicLG-Italic.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/400/italic
 cp UDEVGothic/UDEVGothicLG-Bold.ttf /home/rstudio/.config/rstudio/fonts/UDEVGothicLG/700
