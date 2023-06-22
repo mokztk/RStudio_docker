@@ -18,7 +18,7 @@
 - Ubuntu の `language-pack-ja`, `language-pack-ja-base`
 - 環境変数で `ja_JP.UTF-8` ロケールとタイムゾーン `Asia/Tokyo` を指定
 - 以下の日本語フォントを導入
-    - **Noto Sans/Serif JP**（"CJK"なし）
+    - **[Noto Sans/Serif JP](https://fonts.google.com/noto/fonts)**（"CJK"なし）
         - `fonts-noto-cjk-extra` は KR, SC, TC のフォントも含むので用途に対して大きすぎる（インストールサイズ 300MBほど）
         - Github [notofonts/noto-cjk](https://github.com/notofonts/noto-cjk) から個別のOTF版をダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントを手動でインストール
         - serif/sans の標準日本語フォントとして設定
@@ -49,7 +49,7 @@
 - rocker project で用意されている `/rocker_scripts/install_python.sh` を利用して Python3 をインストール
 - R から Python を使えるよう、`reticulate` に必要な Pandas などもインストール（`Seaborn` も含む）
 - radian のコード補完のためには `jedi` が必要なのであわせてインストール
-- python 3.10 の依存関係でトラブルが発生するので暫定的にダウングレード（3.10.6-1~22.04.2ubuntu1.1 -> 3.10.6-1~22.04.2ubuntu1）
+- python 3.10 の依存関係でトラブルが発生するので暫定的にダウングレード（3.10.6-1\~22.04.2ubuntu1.1 -> 3.10.6-1\~22.04.2ubuntu1）
 
 ### TinyTeX
 
