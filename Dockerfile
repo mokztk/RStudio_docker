@@ -1,7 +1,7 @@
 # rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-#   ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/2023-03-14
+#   ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/2023-06-14
 
-FROM rocker/tidyverse:4.2.2
+FROM rocker/tidyverse:4.3.0
 
 # Ubuntuミラーサイトの設定
 #RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
@@ -25,7 +25,6 @@ RUN set -x \
 COPY my_scripts /my_scripts
 RUN chmod 775 my_scripts/*
 RUN /my_scripts/install_r_packages.sh
-RUN /my_scripts/install_quarto.sh
 RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notojp.sh
 RUN /my_scripts/install_coding_fonts.sh

@@ -20,7 +20,7 @@ options(radian.highlight_matching_bracket = TRUE)
 options(radian.prompt = "\033[0;32mr$>\033[0m ")
 options(radian.escape_key_map = list(
   list(key = "-", value = " <- "),
-  list(key = "m", value = " %>% ")
+  list(key = "m", value = " |> ")
 ))
 options(radian.force_reticulate_python = TRUE)
 EOF

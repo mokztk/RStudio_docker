@@ -18,9 +18,9 @@
 - Ubuntu の `language-pack-ja`, `language-pack-ja-base`
 - 環境変数で `ja_JP.UTF-8` ロケールとタイムゾーン `Asia/Tokyo` を指定
 - 以下の日本語フォントを導入
-    - **Noto Sans/Serif JP**（"CJK"なし）
+    - **[Noto Sans/Serif JP](https://fonts.google.com/noto/fonts)**（"CJK"なし）
         - `fonts-noto-cjk-extra` は KR, SC, TC のフォントも含むので用途に対して大きすぎる（インストールサイズ 300MBほど）
-        - [Google Fonts](https://fonts.google.com/) からダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントを手動でインストール
+        - Github [notofonts/noto-cjk](https://github.com/notofonts/noto-cjk) から個別のOTF版をダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントを手動でインストール
         - serif/sans の標準日本語フォントとして設定
         - 過去コードの文字化け回避のため、Noto Sans/Serif CJK JP を Noto Sans/Serif JP の別名として登録しておく
     - **[UDEV Gothic](https://github.com/yuru7/udev-gothic)**
@@ -37,18 +37,17 @@
 - rockerのスクリプトに倣い、インストール後にRSPMのバイナリパッケージで導入された *.so を整理
 - arm64版では、容量の大きな dbplyr database backend は省略
 
-### Quarto
-- https://quarto.org/
-- x86_64 では `/rocker_scripts/install_quarto.sh` で RStudio にバンドルされているもの（`QUARTO_VERSION=default`）をインストール
-- arm64 では手動で v1.3.302 Release Candidate Build をインストール
-- Rパッケージ `quarto` もインストールし R Console からも使えるようにする（arm版では RStudio 上でうまく変換できない）
+### [Quarto](https://quarto.org/)
 
-### Python3 & radian: A 21 century R console
+- x86_64, arm64 とも rocker/rstudio で既に導入されている
+- Rパッケージ `quarto` もインストールし R Console からも使えるようにする
 
-- https://github.com/randy3k/radian
+### Python3 & [radian: A 21 century R console](https://github.com/randy3k/radian)
+
 - rocker project で用意されている `/rocker_scripts/install_python.sh` を利用して Python3 をインストール
 - R から Python を使えるよう、`reticulate` に必要な Pandas などもインストール（`Seaborn` も含む）
 - radian のコード補完のためには `jedi` が必要なのであわせてインストール
+- python 3.10 の依存関係でトラブルが発生するので暫定的にダウングレード（3.10.6-1\~22.04.2ubuntu1.1 -> 3.10.6-1\~22.04.2ubuntu1）
 
 ### TinyTeX
 
@@ -64,6 +63,12 @@
 
 - Docker Desktop など `-e PASSWORD=...` が設定できないGUIでも起動テストできるように仮のパスワードを埋め込んでおく
 - 更に、普段使いのため `DISABLE_AUTH=true` を埋め込む。パスワードが必要なときは、起動時に `-e DISABLE_AUTH=false`
+
+### rootless モードの解除 (Arm64)
+
+- arm64版の rocker/rstudio (rocker/r-ver に RStudio Server を追加した場合も) は rootless モードで動いており、起動時にユーザー rstudio が削除される
+- amd64(x86_64)版と設定ファイルなどを共用するために rootless モードを解除して、従来どおりユーザー rstudio を使用する
+- 今後、amd64 も rootless になるようならば要検討
 
 ## History
 
@@ -81,3 +86,5 @@
 - **2022-06-07** :bookmark:[4.2.0_2022Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun) : ベースを `rocker/tidyverse:4.2.0` （2022-06-02版）に更新。Quartoの導入、フォントの変更など
 - **2022-06-24** :bookmark:[4.2.0_2022Jun_2](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun_2) : ベースを `rocker/tidyverse:4.2.0` snapshot確定版に更新。Quarto関係を修正
 - **2023-04-06** :bookmark:[4.2.2_2023Mar](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.2_2023Mar) : `rocker/tidyverse:4.2.2` にあわせて更新。ARM64版を試作
+- **2023-06-21** :bookmark:[4.2.2_2023Mar_2](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.2_2023Mar_2) : Noto Sans JP フォントの導入に失敗していたのを修正
+- **2023-06-23** :bookmark:[4.3.0_2023Jul](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.0_2023Jul) : `rocker/tidyverse:4.3.0` にあわせて更新
