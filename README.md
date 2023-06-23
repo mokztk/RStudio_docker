@@ -87,4 +87,4 @@
 - **2022-06-24** :bookmark:[4.2.0_2022Jun_2](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.0_2022Jun_2) : ベースを `rocker/tidyverse:4.2.0` snapshot確定版に更新。Quarto関係を修正
 - **2023-04-06** :bookmark:[4.2.2_2023Mar](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.2_2023Mar) : `rocker/tidyverse:4.2.2` にあわせて更新。ARM64版を試作
 - **2023-06-21** :bookmark:[4.2.2_2023Mar_2](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.2_2023Mar_2) : Noto Sans JP フォントの導入に失敗していたのを修正
-- **2023-06-23** :bookmark:[4.3.0_2023Jul](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.0_2023Jul) : `rocker/tidyverse:4.3.0` にあわせて更新
+- **2023-06-23** :bookmark:[4.3.0_2023Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.0_2023Jun) : `rocker/tidyverse:4.3.0` にあわせて更新
