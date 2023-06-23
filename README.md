@@ -37,15 +37,13 @@
 - rockerのスクリプトに倣い、インストール後にRSPMのバイナリパッケージで導入された *.so を整理
 - arm64版では、容量の大きな dbplyr database backend は省略
 
-### Quarto
-- https://quarto.org/
-- x86_64 では `/rocker_scripts/install_quarto.sh` で RStudio にバンドルされているもの（`QUARTO_VERSION=default`）をインストール
-- arm64 では公式で配布されている Linux Arm64 版を手動でインストール
-- Rパッケージ `quarto` もインストールし R Console からも使えるようにする（arm版では RStudio 上でうまく変換できない）
+### [Quarto](https://quarto.org/)
 
-### Python3 & radian: A 21 century R console
+- x86_64, arm64 とも rocker/rstudio で既に導入されている
+- Rパッケージ `quarto` もインストールし R Console からも使えるようにする
 
-- https://github.com/randy3k/radian
+### Python3 & [radian: A 21 century R console](https://github.com/randy3k/radian)
+
 - rocker project で用意されている `/rocker_scripts/install_python.sh` を利用して Python3 をインストール
 - R から Python を使えるよう、`reticulate` に必要な Pandas などもインストール（`Seaborn` も含む）
 - radian のコード補完のためには `jedi` が必要なのであわせてインストール
@@ -65,6 +63,12 @@
 
 - Docker Desktop など `-e PASSWORD=...` が設定できないGUIでも起動テストできるように仮のパスワードを埋め込んでおく
 - 更に、普段使いのため `DISABLE_AUTH=true` を埋め込む。パスワードが必要なときは、起動時に `-e DISABLE_AUTH=false`
+
+### rootless モードの解除 (Arm64)
+
+- arm64版の rocker/rstudio (rocker/r-ver に RStudio Server を追加した場合も) は rootless モードで動いており、起動時にユーザー rstudio が削除される
+- amd64(x86_64)版と設定ファイルなどを共用するために rootless モードを解除して、従来どおりユーザー rstudio を使用する
+- 今後、amd64 も rootless になるようならば要検討
 
 ## History
 
