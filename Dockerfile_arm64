@@ -1,37 +1,17 @@
-# rocker/r-ver:4.3.0 (ARM) をベースにRStudio, tidyverse, 日本語設定等を追加する
+# rocker/rstudio:4.3.0 (ARM) をベースにtidyverse, 日本語設定等を追加する
 #   ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/2023-06-14
 
 # rocker/tidyverse:4.3.0 の Dockerfile を参考にベースを構築
 #  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.3.0.Dockerfile
 #  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.3.0.Dockerfile
 
-FROM --platform=arm64 rocker/r-ver:4.3.0 AS tidyverse
+FROM --platform=arm64 rocker/rstudio:4.3.0 AS tidyverse
 
-ENV S6_VERSION=v2.1.0.2
-ENV RSTUDIO_VERSION=2023.06.0+421
-ENV DEFAULT_USER=rstudio
-ENV PANDOC_VERSION=default
-
-RUN /rocker_scripts/install_rstudio.sh
-RUN /rocker_scripts/install_pandoc.sh
-
-# arm64 では rocker 公式スクリプトでQuarto のインストールはスキップされるので、公式サイトから Linux Arm64 版をインストール
-RUN set -x \
-    && apt-get update \
-    && wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.361/quarto-1.3.361-linux-arm64.deb -O quarto.deb \
-    && dpkg -i quarto.deb \
-    && rm quarto.deb \
-    && quarto check install \
-    && install2.r --error --skipinstalled knitr quarto \
-    && rm -rf /tmp/downloaded_packages \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# rocker/rstudio:4.3.0 の中を見るとQuartoも導入されているので、tidyverse の追加だけ行う
 
 COPY my_scripts/install_tidyverse.sh /my_scripts/install_tidyverse.sh
 RUN chmod 775 /my_scripts/install_tidyverse.sh \
     && /my_scripts/install_tidyverse.sh
-
-EXPOSE 8787
 
 CMD ["/init"]
 
@@ -75,6 +55,10 @@ ENV LANG=ja_JP.UTF-8 \
     LC_ALL=ja_JP.UTF-8 \
     TZ=Asia/Tokyo \
     PASSWORD=password \
-    DISABLE_AUTH=true
+    DISABLE_AUTH=true \
+    RUNROOTLESS=false
+
+# Arm64版のrocker/rstudio:4.3.0はrootlessモードで動いているが、Amd64版との整合性のため
+# rootlessモードは解除しておく
 
 CMD ["/init"]
