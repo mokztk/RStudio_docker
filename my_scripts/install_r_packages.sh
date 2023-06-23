@@ -38,6 +38,8 @@ Rscript -e "update.packages(ask = FALSE)"
 install2.r --error --ncpus -1 --skipinstalled \
     here \
     pacman \
+    knitr \
+    quarto \
     tidylog \
     furrr \
     glmnetUtils \
