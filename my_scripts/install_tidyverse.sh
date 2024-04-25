@@ -5,9 +5,18 @@ set -x
 # 容量の大きな database backend は RSQLite 以外省略
 # Ref: https://github.com/rocker-org/rocker-versioned2/blob/master/scripts/install_tidyverse.sh
 
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
 # 依存ライブラリの追加
-apt-get update
-apt-get install -y --no-install-recommends \
+apt_install \
     libxml2-dev \
     libcairo2-dev \
     libgit2-dev \
@@ -38,6 +47,7 @@ install2.r --error --skipinstalled \
 ## dplyr database backends
 install2.r --error --skipmissing --skipinstalled \
     dbplyr \
+    dtplyr \
     DBI \
     RSQLite \
     fst

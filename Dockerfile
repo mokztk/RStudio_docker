@@ -1,13 +1,11 @@
-# rocker/rstudio:4.3.0 (ARM) をベースにtidyverse, 日本語設定等を追加する
-#   ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/2023-06-14
+# rocker/rstudio:4.3.3 をベースにtidyverse, 日本語設定等を追加する（amd64/arm64共通）
+#   ENV CRAN=https://p3m.dev/cran/__linux__/jammy/2024-04-23
 
-# rocker/tidyverse:4.3.0 の Dockerfile を参考にベースを構築
-#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.3.0.Dockerfile
-#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.3.0.Dockerfile
+# rocker/tidyverse:4.3.3 の Dockerfile を参考にベースを構築
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.3.3.Dockerfile
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.3.3.Dockerfile
 
-FROM --platform=arm64 rocker/rstudio:4.3.0 AS tidyverse
-
-# rocker/rstudio:4.3.0 の中を見るとQuartoも導入されているので、tidyverse の追加だけ行う
+FROM rocker/rstudio:4.3.3 AS tidyverse
 
 COPY my_scripts/install_tidyverse.sh /my_scripts/install_tidyverse.sh
 RUN chmod 775 /my_scripts/install_tidyverse.sh \
@@ -16,9 +14,8 @@ RUN chmod 775 /my_scripts/install_tidyverse.sh \
 CMD ["/init"]
 
 # 上記の rocker/tidyverse 相当のイメージに日本語設定などを追加
-# arm 非対応なので TinyTeX のセットアップは行わない
 
-FROM tidyverse
+FROM tidyverse AS my_rstudio
 
 # 日本語設定と必要なライブラリ（Rパッケージ用は別途スクリプト内で導入）
 RUN set -x \
@@ -42,6 +39,9 @@ RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notojp.sh
 RUN /my_scripts/install_coding_fonts.sh
 
+# QuartoをTypst対応の1.4系に更新（2024-04時点の最新で 1.4.553）
+RUN QUARTO_VERSION=1.4.553 /rocker_scripts/install_quarto.sh
+
 USER rstudio
 
 # ${R_HOME}/etc/Renviron のタイムゾーン指定（Etc/UTC）を上書き
@@ -58,7 +58,6 @@ ENV LANG=ja_JP.UTF-8 \
     DISABLE_AUTH=true \
     RUNROOTLESS=false
 
-# Arm64版のrocker/rstudio:4.3.0はrootlessモードで動いているが、Amd64版との整合性のため
-# rootlessモードは解除しておく
+# Amd64版との整合性のためrootlessモードは解除しておく
 
 CMD ["/init"]
