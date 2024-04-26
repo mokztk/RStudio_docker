@@ -1,0 +1,106 @@
+---
+title: "Quarto/Typstのテスト"
+author: ""
+date: ""
+date-format: iso
+format:
+  typst:
+    lang: ja
+    mainfont: "Noto Serif JP"
+    fontsize: 11pt
+    fig-format: svg
+    fig-width: 7
+    fig-height: 4
+    toc: false
+    number-sections: true
+    number-depth: 3
+    section-numbering: 1-1-1.
+    columns: 1
+    papersize: a4
+    margin:
+      x: 2cm
+      y: 2cm
+    include-before-body:
+      - text: |
+          // 見出しを Sans フォントに変更し、段落後を少しあける
+          #show heading: it => [
+            #set text(font: "Noto Sans JP")
+            #pad(bottom: 10pt, left: -0.5em, it)
+          ]
+          // タイトルなしの目次をはじめに表示
+          #pad(bottom: 14pt, outline(title: none, depth: 3, indent: auto))
+---
+
+
+# 平文のテスト
+
+## Lorem ipsum
+
+```{=typst}
+#lorem(50)
+```
+
+## 日本語
+
+*ひとつ強調*  **ふたつ強調** _下線ひとつ_  __下線2つ__
+
+### 平家物語（難しい漢字の入った長い文章の例として）
+
+祇園精舍の鐘の声、諸行無常の響きあり。娑羅双樹の花の色、盛者必衰の理をあらはす。奢れる人も久しからず、ただ春の夜の夢のごとし。猛き者もつひにはほろびぬ、ひとへに風の前の塵に同じ。
+
+遠く異朝をとぶらへば、秦の趙高、漢の王莽、梁の朱忌、唐の祿山、これらは皆舊主先皇の政にもしたがはず、樂しみをきはめ、諌めをも思ひ入れず、天下の亂れん事を悟らずして、民間の愁ふるところを知らざつしかば、久しからずして、亡じにし者どもなり。
+
+## 数式と脚注
+
+酸素解離曲線に関する Hillの式 [^Hill] において、$k$ は SaO~2~ = 50% となるときの PaO~2~ である P~50~ を用いて $k = 1/{(P_{50}) ^ n}$ と表せるので、
+
+$$
+S_{O_{2}}
+= \frac{k \times (P_{O_{2}}) ^ n}{1 + k \times (P_{O_{2}}) ^ n}
+= \frac{({P_{O_{2}}}/{P_{50}}) ^ n}{1 + ({P_{O_{2}}}/{P_{50}}) ^ n}
+$$
+P~50~ の正常値はおよそ 27、$n$ は文献にもよるが 2.7 前後となる。[^1]
+
+[^1]: 酸素解離曲線の理論的取り扱い. https://www.acute-care.jp/ja-jp/document/bloodgas-museum/category06/odc6
+[^Hill]:Hill AV. J Physiol 40:Proceedings iv. 1910.
+
+{{< pagebreak >}}
+
+# Rコードのテスト
+
+```{r}
+summary(lm(Sepal.Width ~ Petal.Width, data = iris))
+```
+
+## base graphics
+
+```{r}
+plot(x = iris$Petal.Width, y = iris$Sepal.Width, 
+     xlab = "花弁の幅", ylab = "がく片の幅",
+     main = "figure by base plot()")
+```
+
+{{< pagebreak >}}
+
+## ggplot2
+
+Simpson's paradox
+
+```{r}
+#| message: false
+
+library(tidyverse)
+
+iris |>
+  ggplot(aes(x = Petal.Width, y = Sepal.Width)) +
+    geom_point(aes(fill = Species), size = 2, pch = 21) +
+    stat_ellipse(colour = "black", linetype = "dotted") +
+    stat_ellipse(aes(colour = Species), level = .95) +
+    labs(
+      title = "figure by ggplot2",
+      x     = "花弁の幅",
+      y     = "がく片の幅"
+    ) +
+    theme_gray(base_family = "Noto Sans JP")
+```
+

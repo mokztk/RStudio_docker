@@ -1,0 +1,16 @@
+---
+title: "Installed packages"
+output:
+  md_document:
+    variant: "markdown_github"
+---
+
+```{r, message = FALSE}
+library(tidyverse)
+
+.packages(all.available = TRUE) %>%
+    sessioninfo::package_info(pkgs = ., include_base = FALSE) %>%
+    as_tibble() %>%
+    select(package, ondiskversion, date, source) %>%
+    knitr::kable()
+```

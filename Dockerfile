@@ -1,11 +1,21 @@
-# rocker/tidyverse に日本語設定と頻用パッケージ、および TinyTeX, Radian を追加
-#   ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/2023-06-14
+# rocker/rstudio:4.3.3 をベースにtidyverse, 日本語設定等を追加する（amd64/arm64共通）
+#   ENV CRAN=https://p3m.dev/cran/__linux__/jammy/2024-04-23
 
-FROM rocker/tidyverse:4.3.0
+# rocker/tidyverse:4.3.3 の Dockerfile を参考にベースを構築
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.3.3.Dockerfile
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.3.3.Dockerfile
 
-# Ubuntuミラーサイトの設定
-#RUN sed -i.bak -e 's%http://[^ ]\+%mirror://mirrors.ubuntu.com/mirrors.txt%g' /etc/apt/sources.list
-RUN sed -i.bak -e "s%http://[^ ]\+%http://ftp.udx.icscoe.jp/Linux/ubuntu/%g" /etc/apt/sources.list
+FROM rocker/rstudio:4.3.3 AS tidyverse
+
+COPY my_scripts/install_tidyverse.sh /my_scripts/install_tidyverse.sh
+RUN chmod 775 /my_scripts/install_tidyverse.sh \
+    && /my_scripts/install_tidyverse.sh
+
+CMD ["/init"]
+
+# 上記の rocker/tidyverse 相当のイメージに日本語設定などを追加
+
+FROM tidyverse AS my_rstudio
 
 # 日本語設定と必要なライブラリ（Rパッケージ用は別途スクリプト内で導入）
 RUN set -x \
@@ -29,9 +39,10 @@ RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notojp.sh
 RUN /my_scripts/install_coding_fonts.sh
 
+# QuartoをTypst対応の1.4系に更新（2024-04時点の最新で 1.4.553）
+RUN QUARTO_VERSION=1.4.553 /rocker_scripts/install_quarto.sh
+
 USER rstudio
-RUN /my_scripts/install_tinytex.sh
-#RUN /my_scripts/install_tex_packages.sh
 
 # ${R_HOME}/etc/Renviron のタイムゾーン指定（Etc/UTC）を上書き
 RUN echo "TZ=Asia/Tokyo" >> /home/rstudio/.Renviron
@@ -44,6 +55,9 @@ ENV LANG=ja_JP.UTF-8 \
     LC_ALL=ja_JP.UTF-8 \
     TZ=Asia/Tokyo \
     PASSWORD=password \
-    DISABLE_AUTH=true
-    
+    DISABLE_AUTH=true \
+    RUNROOTLESS=false
+
+# Amd64版との整合性のためrootlessモードは解除しておく
+
 CMD ["/init"]
