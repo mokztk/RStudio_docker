@@ -23,8 +23,19 @@
 ## tex_test.Rmd
 
 - RMarkdown と XeLaTeX による日本語PDF作成のテスト
-- 使用フォントは Noto Sans/Serif CJK JP
+- 使用フォントは Noto Sans/Serif JP
 - 内容：
     - 軸ラベルに日本語を使った base plot() の図
     - 軸ラベルに日本語を使った {ggplot2} の図
     - 難しい漢字を含む文章の例として、「平家物語」の冒頭
+
+## typst_text.qmd
+
+- Quarto と Typst による日本語PDF作成のテスト
+- 使用フォントは本文で Noto Serif JP、見出しと図表で Noto Sans JP
+- 内容：
+    - 英文？として Lorem ipsum の冒頭 50 words（Typst の関数で lorem(50)）
+    - 難しい漢字を含む文章の例として、「平家物語」の冒頭
+    - TeX形式の数式と注釈の例
+    - 軸ラベルに日本語を使った base plot() の図
+    - 軸ラベルに日本語を使った {ggplot2} の図
