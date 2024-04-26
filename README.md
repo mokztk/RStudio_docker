@@ -8,7 +8,7 @@
 - [rocker-org/rocker-versioned2](https://github.com/rocker-org/rocker-versioned2) のように、目的別のスクリプトを使って Dockerfile 自体は極力シンプルにしてみる
 
 ```
-docker image build --target my_rstudio -t "mokztk/rstudio:4.3.3" .
+docker image build -t "mokztk/rstudio:4.3.3" .
 docker run --rm -d -p 8787:8787 --name rstudio mokztk/rstudio:4.3.3
 
 # rocker/tidyverse 相当までの build
@@ -38,12 +38,13 @@ arm64 が置かれていないミラーサーバーも多いので変更しな�
 
 ### R の頻用パッケージ
 
+- [インストール済みのパッケージ一覧](package_list.md)
 - 容量節約のため、`--deps TRUE`指定（依存関係 Suggestsまで含める）は外し、インストール後にDLしたアーカイブは削除
 - rockerのスクリプトに倣い、インストール後にRSPMのバイナリパッケージで導入された *.so を整理
 
 ### [Quarto](https://quarto.org/) & [Typst](https://typst.app/)
 
-- x86_64, arm64 とも rocker/rstudio で Quarto 1.3 系が既に導入されているが、Typst 対応の 1.4系（2024-04-26時点で最新の 1.4.553）に更新
+- rocker/rstudio で Quarto 1.3系が既に導入されているが、Typst 対応の 1.4系（2024-04-26時点で最新の 1.4.553）に更新
 - Typst は Quarto 1.4 に含まれているものを使用
 - Rパッケージ `quarto` もインストールし R Console からも使えるようにする
 
@@ -52,15 +53,15 @@ arm64 が置かれていないミラーサーバーも多いので変更しな�
 - rocker project で用意されている `/rocker_scripts/install_python.sh` を利用して Python3 をインストール
 - R から Python を使えるよう、`reticulate` に必要な Pandas などもインストール（`Seaborn` も含む）
 - radian のコード補完のためには `jedi` が必要なのであわせてインストール
-- python 3.10 の依存関係でトラブルが発生するので暫定的にダウングレード（3.10.6-1\~22.04.2ubuntu1.1 -> 3.10.6-1\~22.04.2ubuntu1）
 
 ### TinyTeX
 
 - Quarto-Typst で日本語PDFも作成できるため、あまり使わない？
-- TinyTeX はパッケージはインストールしてあるが、セットアップをしていない状態。必要に応じて RStudio の Terminal で `/my_script/install_tinytex.sh` を実行する（ユーザー `rstudio` 権限）。
-    - TeX Live は引き続き 2023年3月で更新終了（frozen）となった TeX Live 2022 のアーカイブを利用（日本語 TeX 開発コミュニティ texjp.org のサーバにあるもの）
+- TinyTeX はパッケージはインストールしてあるが、セットアップをしていない状態。
+- 必要に応じてユーザー `rstudio` 権限でセットアップスクリプト `/my_script/install_tinytex.sh` を実行する（RStudio の Terminal で可）。
+    - TeX Live は引き続き日本語 TeX 開発コミュニティ texjp.org のサーバにある TeX Live 2022 (frozen) のアーカイブを利用
     - TinyTeX はそれに合わせて "2023.03" をインストール
-    - LuaLaTeXの場合、原ノ味フォントはインストールしておかないと進まなくなるので `haranoaji` だけ手動で入れておく
+    - LuaLaTeXの場合に、原ノ味フォントを先にインストールしておかないと進まなくなるので `haranoaji` だけセットアップ時にインストールしておく
     - その他に必要なパッケージは、初回に日本語PDFを作成するときに自動でインストールされる（XeLaTeX + BXjscls の文書で約50個）
 
 ### 環境変数 PASSWORD の仮設定
@@ -92,4 +93,4 @@ arm64 が置かれていないミラーサーバーも多いので変更しな�
 - **2023-04-06** :bookmark:[4.2.2_2023Mar](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.2_2023Mar) : `rocker/tidyverse:4.2.2` にあわせて更新。ARM64版を試作
 - **2023-06-21** :bookmark:[4.2.2_2023Mar_2](https://github.com/mokztk/RStudio_docker/releases/tag/4.2.2_2023Mar_2) : Noto Sans JP フォントの導入に失敗していたのを修正
 - **2023-06-23** :bookmark:[4.3.0_2023Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.0_2023Jun) : `rocker/tidyverse:4.3.0` にあわせて更新
-- **2024-04-26** :bookmark:[4.3.3_2024Apr](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.3_2024Apr) : `rocker/rstudio:4.3.3` をベースに、Quarto 1.4 を追加。Amd64/Arm64のDockerfileを1本化
+- **2024-04-26** :bookmark:[4.3.3_2024Apr](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.3_2024Apr) : `rocker/rstudio:4.3.3` をベースにQuarto 1.4を追加。Amd64/Arm64のDockerfileを1本化
