@@ -15,7 +15,7 @@ echo "source /opt/venv/bin/activate" > /home/rstudio/.bashrc
 chown rstudio:rstudio /home/rstudio/.bashrc
 
 # pandas, seabornをインストール
-python3 -m pip --no-cache-dir pandas seaborn
+python3 -m pip --no-cache-dir install pandas seaborn
 
 # radianのインストール
 python3 -m pip --no-cache-dir install radian jedi
