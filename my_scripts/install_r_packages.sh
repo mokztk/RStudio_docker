@@ -62,6 +62,7 @@ install2.r --error --ncpus -1 --skipinstalled \
     mice \
     ggmice \
     survminer \
+    ggsurvfit \
     GGally \
     ggfortify \
     gghighlight \
@@ -78,7 +79,9 @@ install2.r --error --ncpus -1 --skipinstalled \
     palmerpenguins \
     styler \
     svglite \
-    export
+    export \
+    tidyplots \
+    tinytable
 
 # R.cache (imported by styler) で使用するキャッシュディレクトリを準備
 mkdir -p /home/rstudio/.cache/R/R.cache
