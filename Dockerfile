@@ -1,15 +1,15 @@
-# rocker/rstudio:4.3.3 をベースにtidyverse, 日本語設定等を追加する（amd64/arm64共通）
-#   ENV CRAN=https://p3m.dev/cran/__linux__/jammy/2024-04-23
+# rocker/rstudio:4.4.2 をベースにtidyverse, 日本語設定等を追加する（amd64/arm64共通）
+#   ENV CRAN="https://p3m.dev/cran/__linux__/noble/2025-02-27"
 
-# rocker/tidyverse:4.3.3 の Dockerfile を参考にベースを構築
-#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.3.3.Dockerfile
-#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.3.3.Dockerfile
+# rocker/tidyverse:4.4.2 の Dockerfile を参考にベースを構築
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.4.2.Dockerfile
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.4.2.Dockerfile
 
-FROM rocker/rstudio:4.3.3 AS tidyverse
+FROM rocker/rstudio:4.4.2 AS tidyverse
 
-COPY my_scripts/install_tidyverse.sh /my_scripts/install_tidyverse.sh
-RUN chmod 775 /my_scripts/install_tidyverse.sh \
-    && /my_scripts/install_tidyverse.sh
+# rocker/tidyverse 相当のパッケージを導入
+# 容量の大きな database backend は RSQLite 以外省略
+RUN sed -e 48d -e 52,56d /rocker_scripts/install_tidyverse.sh | bash
 
 CMD ["/init"]
 
@@ -38,9 +38,6 @@ RUN /my_scripts/install_r_packages.sh
 RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notojp.sh
 RUN /my_scripts/install_coding_fonts.sh
-
-# QuartoをTypst対応の1.4系に更新（2024-04時点の最新で 1.4.553）
-RUN QUARTO_VERSION=1.4.553 /rocker_scripts/install_quarto.sh
 
 USER rstudio
 
