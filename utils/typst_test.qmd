@@ -29,7 +29,7 @@ format:
           // コードブロック内の日本語フォント、プログラミングフォント
           #show block: it => [
             #set text(
-              font: ("Noto Sans Mono CJK JP", "DejaVu Sans Mono"),
+              font: ("DejaVu Sans Mono", "Noto Sans Mono CJK JP"),
               fallback: true
             )
             #it
