@@ -11,7 +11,7 @@ output:
     toc_float: true
     df_print: kable
     code_folding: hide
-    code_download: true
+    code_download: false
 ---
 
 ```{r setup, include = FALSE}
