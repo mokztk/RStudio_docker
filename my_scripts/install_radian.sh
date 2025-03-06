@@ -4,10 +4,18 @@ set -x
 
 # radian: A 21 century R console.
 
-# pip3 を install_pandas.sh などで既に入れていればスキップ
-if [ ! -e "/usr/bin/pip3" ]; then
-    source /my_scripts/install_pandas.sh
-fi
+# Ubuntu 24.04はPEP 668に従ってシステムPythonにインストールしようとするとエラーになるので
+# 素直にvirtual envを使用する
+/rocker_scripts/install_python.sh
+source /opt/venv/bin/activate
+
+# bash起動時にvenvを有効にする
+echo "source /opt/venv/bin/activate" > /root/.bashrc
+echo "source /opt/venv/bin/activate" > /home/rstudio/.bashrc
+chown rstudio:rstudio /home/rstudio/.bashrc
+
+# pandas, seabornをインストール
+python3 -m pip --no-cache-dir install pandas seaborn
 
 # radianのインストール
 python3 -m pip --no-cache-dir install radian jedi
@@ -25,4 +33,5 @@ options(radian.escape_key_map = list(
 options(radian.force_reticulate_python = TRUE)
 EOF
 
+cp /home/rstudio/.radian_profile /root
 chown rstudio:rstudio /home/rstudio/.radian_profile

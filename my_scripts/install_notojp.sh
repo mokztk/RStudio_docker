@@ -4,9 +4,9 @@
 # apt で fonts-noto-cjk + fonts-noto-cjk-extra を入れると300MB超となるため最低限のものを手動で導入する
 
 # Google Fonts で配布されている日本語フォントは現在、"CJK" なしの Noto Sans/Serif JP
-# 2023-06 現在の配布パッケージでは、Sans は .ttf、Serif は .otf で形式が一致しないので
 # Github notofonts/noto-cjk から日本語サブセット版（SubsetOTF）個別にダウンロードする
 # zxjafont.sty のプリセット名は "noto" ではなく、"noto-jp" を使う
+# noto-jp で必要な7フォント＋Noto Sans Mono CJK JP
 
 set -x
 
@@ -19,6 +19,7 @@ wget -q -O NotoSansJP-Regular.otf https://github.com/notofonts/noto-cjk/raw/main
 wget -q -O NotoSansJP-Bold.otf https://github.com/notofonts/noto-cjk/raw/main/Sans/SubsetOTF/JP/NotoSansJP-Bold.otf
 wget -q -O NotoSansJP-Black.otf https://github.com/notofonts/noto-cjk/raw/main/Sans/SubsetOTF/JP/NotoSansJP-Black.otf
 wget -q -O NotoSansJP-Medium.otf https://github.com/notofonts/noto-cjk/raw/main/Sans/SubsetOTF/JP/NotoSansJP-Medium.otf
+wget -q -O NotoSansMonoCJKjp-Regular.otf https://github.com/notofonts/noto-cjk/raw/main/Sans/Mono/NotoSansMonoCJKjp-Regular.otf
 
 chmod 644 /usr/share/fonts/notojp/*
 fc-cache -fv

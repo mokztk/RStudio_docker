@@ -22,11 +22,24 @@ format:
       y: 2cm
     include-before-body:
       - text: |
-          // 見出しを Sans フォントに変更し、段落後を少しあける
+          // 見出し後は少しあける
           #show heading: it => [
-            #set text(font: "Noto Sans JP")
             #pad(bottom: 10pt, left: -0.5em, it)
           ]
+          // コードブロック内の日本語フォント、プログラミングフォント
+          #show block: it => [
+            #set text(
+              font: ("DejaVu Sans Mono", "Noto Sans Mono CJK JP"),
+              fallback: true
+            )
+            #it
+          ]
+          // リンクは下線を引く
+          #show link: it => [
+            #set text(fill: blue)
+            #underline(it)
+          ]
+          // front matter の toc: true で作成される目次は使わず、
           // タイトルなしの目次をはじめに表示
           #pad(bottom: 14pt, outline(title: none, depth: 3, indent: auto))
 ---
