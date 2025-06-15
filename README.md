@@ -64,15 +64,9 @@ docker exec -it <container name> /opt/venv/bin/radian
 
 ### remote SSH接続
 
-[Positron](https://positron.posit.co/) などから remote SSH で接続できるよう、`sshd` の準備をしておく。ENTRYPOINT を上書きして
+[Positron](https://positron.posit.co/) などから remote SSH で接続できるよう、sshd も起動させるようにした。
 
-```
-docker run --rm -d -p 22:22 --entrypoint /bin/sh mokztk/rstudio:4.5.0 -c "/usr/sbin/sshd -D"
-```
-
-で起動すれば、パスワード認証（初期設定はユーザー、パスワードとも `rstudio`）での SSH 接続が可能。
-
-また、`/home/rstudio/.ssh/authorized_keys` に公開鍵を登録すればパスワード不要の公開鍵暗号での接続も可能になる。
+パスワード認証（ユーザー `rstudio`、パスワードの初期設定は下で設定した `password`）での SSH 接続に加えて、`/home/rstudio/.ssh/authorized_keys` に公開鍵を登録すればパスワード不要の公開鍵暗号での接続も可能になる。
 
 ### TinyTeX
 
