@@ -6,11 +6,19 @@ set -x
 
 apt-get update
 
+# base の tcltk パッケージのために Tcl/Tk を入れておく
+apt-get install -y --no-install-recommends \
+    libtcl8.6 \
+    libtk8.6
+
 # まず最新の状態まで更新する
 Rscript -e "update.packages(ask = FALSE)"
 
 # pak::pak() を使うと依存ライブラリのインストールもしてくれる
-install2.r pak
+# (4.5.0) pak で RccpEigen がうまくインストールできないので、ここで入れておく
+install2.r --error --ncpus -1 --skipinstalled \
+    pak \
+    RcppEigen
 
 cat << EOF | R
 pak::pak(c(
