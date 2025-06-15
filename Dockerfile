@@ -42,6 +42,7 @@ RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notojp.sh
 RUN /my_scripts/install_coding_fonts.sh
 RUN /my_scripts/install_msedit.sh
+RUN /my_scripts/setup_sshd.sh
 
 # 検証用ファイル
 COPY --chown=rstudio:rstudio utils /home/rstudio/utils
@@ -54,9 +55,6 @@ ENV LANG=ja_JP.UTF-8 \
     PASSWORD=password \
     DISABLE_AUTH=true \
     RUNROOTLESS=false
-
-# SSHDを起動できるように準備
-RUN mkdir /var/run/sshd
 
 EXPOSE 22
 EXPOSE 8787
