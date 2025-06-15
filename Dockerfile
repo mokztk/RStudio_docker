@@ -8,7 +8,7 @@
 FROM rocker/rstudio:4.5.0 AS tidyverse
 
 # rocker/tidyverse 相当のパッケージを導入
-# 容量の大きな database backend は RSQLite 以外省略（行番号は @5d33fd1 対応）
+# 容量の大きな database backend は RSQLite 以外省略（行番号は @5d33fd1 準拠）
 RUN sed -e 48d -e 52,56d /rocker_scripts/install_tidyverse.sh | bash
 
 CMD ["/init"]
@@ -18,6 +18,7 @@ CMD ["/init"]
 FROM tidyverse AS my_rstudio
 
 # 日本語設定と必要なライブラリ（Rパッケージ用は別途スクリプト内で導入）
+# ${R_HOME}/etc/Renviron のタイムゾーン指定（Etc/UTC）も上書きしておく
 RUN set -x \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -28,7 +29,9 @@ RUN set -x \
     && /bin/bash -c "source /etc/default/locale" \
     && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "TZ=Asia/Tokyo" >> /home/rstudio/.Renviron \
+    && chown rstudio:rstudio /home/rstudio/.Renviron
 
 # setup script
 # 各スクリプトは改行コード LF(UNIX) でないとエラーになる
@@ -39,22 +42,16 @@ RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notojp.sh
 RUN /my_scripts/install_coding_fonts.sh
 
-USER rstudio
-
-# ${R_HOME}/etc/Renviron のタイムゾーン指定（Etc/UTC）を上書き
-RUN echo "TZ=Asia/Tokyo" >> /home/rstudio/.Renviron
-
 # 検証用ファイル
 COPY --chown=rstudio:rstudio utils /home/rstudio/utils
 
-USER root
+# 標準のパスワード rstudio のままでは RStudio Server が起動できないので、仮パスワードを環境変数で設定しておく
+# Amd64版との整合性のためrootlessモードは解除しておく
 ENV LANG=ja_JP.UTF-8 \
     LC_ALL=ja_JP.UTF-8 \
     TZ=Asia/Tokyo \
     PASSWORD=password \
     DISABLE_AUTH=true \
     RUNROOTLESS=false
-
-# Amd64版との整合性のためrootlessモードは解除しておく
 
 CMD ["/init"]
