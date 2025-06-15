@@ -1,14 +1,14 @@
-# rocker/rstudio:4.4.2 をベースにtidyverse, 日本語設定等を追加する（amd64/arm64共通）
-#   ENV CRAN="https://p3m.dev/cran/__linux__/noble/2025-02-27"
+# rocker/rstudio:4.5.0 をベースにtidyverse, 日本語設定等を追加する（amd64/arm64共通）
+#   ENV CRAN="https://p3m.dev/cran/__linux__/noble/2025-06-12"
 
-# rocker/tidyverse:4.4.2 の Dockerfile を参考にベースを構築
-#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.4.2.Dockerfile
-#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.4.2.Dockerfile
+# rocker/tidyverse:4.5.0 の Dockerfile を参考にベースを構築
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/rstudio_4.5.0.Dockerfile
+#  https://github.com/rocker-org/rocker-versioned2/blob/master/dockerfiles/tidyverse_4.5.0.Dockerfile
 
-FROM rocker/rstudio:4.4.2 AS tidyverse
+FROM rocker/rstudio:4.5.0 AS tidyverse
 
 # rocker/tidyverse 相当のパッケージを導入
-# 容量の大きな database backend は RSQLite 以外省略
+# 容量の大きな database backend は RSQLite 以外省略（行番号は @5d33fd1 対応）
 RUN sed -e 48d -e 52,56d /rocker_scripts/install_tidyverse.sh | bash
 
 CMD ["/init"]
