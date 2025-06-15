@@ -3,16 +3,16 @@
 - **rocker/rstudio** に rocker/tidyverse 相当のパッケージと日本語設定、頻用パッケージをインストールした作業用イメージ
     - rocker/rstudio を出発点にすることで Amd64 (x86_64) / Arm64 の Dockerfile を共通化
     - rocker/tidyverse 相当のうち、容量の大きな dbplyr database backend は RSQLite 以外を省略
-- RStudio server を開くまでもないような作業用に、[radian: A 21 century R console](https://github.com/randy3k/radian)を追加する
+- CLI作業用に、[radian: A 21 century R console](https://github.com/randy3k/radian) と [Microsoft Edit](https://github.com/microsoft/edit) を追加する
 - `reticulate` で最低限の python 連携も使用できるようにする
 - [rocker-org/rocker-versioned2](https://github.com/rocker-org/rocker-versioned2) のように、目的別のスクリプトを使って Dockerfile 自体は極力シンプルにしてみる
 
 ```
-docker image build -t "mokztk/rstudio:4.4.2" .
-docker run --rm -d -p 8787:8787 --name rstudio mokztk/rstudio:4.4.2
+docker image build -t "mokztk/rstudio:4.5.0" .
+docker run --rm -d -p 8787:8787 --name rstudio mokztk/rstudio:4.5.0
 
 # rocker/tidyverse 相当までの build
-docker image build --target tidyverse -t "mokztk/tidyverse:4.4.2" .
+docker image build --target tidyverse -t "mokztk/tidyverse:4.5.0" .
 ```
 
 ## 詳細
@@ -28,6 +28,7 @@ arm64 が置かれていないミラーサーバーも多いので変更しな�
 - 以下の日本語フォントを導入
     - **[Noto Sans/Serif JP](https://fonts.google.com/noto/fonts)**（"CJK"なし）
         - `fonts-noto-cjk-extra` は KR, SC, TC のフォントも含むので用途に対して大きすぎる（インストールサイズ 300MBほど）
+        - Windows 11 に搭載された Noto Sans/Serif JP（"CJK"なし）と作図コードに互換性が確保できる
         - Github [notofonts/noto-cjk](https://github.com/notofonts/noto-cjk) から個別のOTF版をダウンロードして、XeLaTeX + BXjscls で "noto-jp" を指定する場合に必要な ７フォントと Noto Sans Mono CJK JP を手動でインストール
         - serif/sans/monospace の標準日本語フォントとして設定
         - 過去コードの文字化け回避のため、Noto Sans/Serif CJK JP を Noto Sans/Serif JP の別名として登録しておく
@@ -39,13 +40,8 @@ arm64 が置かれていないミラーサーバーも多いので変更しな�
 ### R の頻用パッケージ
 
 - [インストール済みのパッケージ一覧](package_list.md)
-- 容量節約のため、`--deps TRUE`指定（依存関係 Suggestsまで含める）は外し、インストール後にDLしたアーカイブは削除
+- 容量節約のため、`dependencies = NA` の指定とし、インストール後にDLしたアーカイブは削除
 - rockerのスクリプトに倣い、インストール後にRSPMのバイナリパッケージで導入された *.so を整理
-
-### [Quarto](https://quarto.org/) & [Typst](https://typst.app/)
-
-- rocker/rstudio:4.4.2 でインストール済のもので Typst によるPDF出力可能のため追加インストールはしない
-- Rパッケージ `quarto` もインストールし R Console からも使えるようにする
 
 ### Python3 & [radian: A 21 century R console](https://github.com/randy3k/radian)
 
@@ -62,19 +58,31 @@ radian をホストPCで使うときは
 docker exec -it <container name> /opt/venv/bin/radian
 ```
 
+### [Microsoft Edit](https://github.com/microsoft/edit)
+
+- CLI用のテキストエディタがないので、`msedit` の名前で使用できるように導入しておく
+
+### remote SSH接続
+
+[Positron](https://positron.posit.co/) などから remote SSH で接続できるよう、`sshd` の準備をしておく。ENTRYPOINT を上書きして
+
+```
+docker run --rm -d -p 22:22 --entrypoint /bin/sh mokztk/rstudio:4.5.0 -c "/usr/sbin/sshd -D"
+```
+
+で起動すれば、パスワード認証（初期設定はユーザー、パスワードとも `rstudio`）での SSH 接続が可能。
+
+また、`/home/rstudio/.ssh/authorized_keys` に公開鍵を登録すればパスワード不要の公開鍵暗号での接続も可能になる。
+
 ### TinyTeX
 
 - Quarto-Typst で日本語PDFも作成できほぼ使わななくなったため、TinyTeX はパッケージはインストールしてあるがセットアップをしていない状態
-- 以下は4.3系以降メンテナンスしていないが、当時の方法では使えるはず
-    - 必要に応じてユーザー `rstudio` 権限でセットアップスクリプト `/my_script/install_tinytex.sh` を実行する（RStudio の Terminal で可）。
-        - TeX Live は引き続き日本語 TeX 開発コミュニティ texjp.org のサーバにある TeX Live 2022 (frozen) のアーカイブを利用
-        - TinyTeX はそれに合わせて "2023.03" をインストール
-        - LuaLaTeXの場合に、原ノ味フォントを先にインストールしておかないと進まなくなるので `haranoaji` だけセットアップ時にインストールしておく
-        - その他に必要なパッケージは、初回に日本語PDFを作成するときに自動でインストールされる（XeLaTeX + BXjscls の文書で約50個）
+- 必要に応じてユーザー `rstudio` 権限でセットアップスクリプト `/my_script/install_tinytex.sh` を実行する（RStudio の Terminal で可）
+    - R4.3系以降メンテナンスしていないが、TeX Live 2022 frozen ベースで LuaLaTeX / XeLaTeX で日本語PDFを作成できる環境が準備できるはず
 
-### 環境変数 PASSWORD の仮設定
+### 環境変数 PASSWORD の仮設定（RStudio Server のログインパスワード）
 
-- Docker Desktop など `-e PASSWORD=...` が設定できないGUIでも起動テストできるように仮のパスワードを埋め込んでおく
+- 初期パスワード `rstudio` のままでは RStudio Server が使用できないので、Docker Desktop など -e PASSWORD=... が設定できないGUIでも起動テストできるように仮のパスワード `password` を埋め込んでおく
 - 更に、普段使いのため `DISABLE_AUTH=true` を埋め込む。パスワードが必要なときは、起動時に `-e DISABLE_AUTH=false`
 
 ### rootless モードの解除 (Arm64)
@@ -103,3 +111,4 @@ docker exec -it <container name> /opt/venv/bin/radian
 - **2023-06-23** 🔖[4.3.0_2023Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.0_2023Jun) : `rocker/tidyverse:4.3.0` にあわせて更新
 - **2024-04-26** 🔖[4.3.3_2024Apr](https://github.com/mokztk/RStudio_docker/releases/tag/4.3.3_2024Apr) : `rocker/rstudio:4.3.3` をベースにQuarto 1.4を追加。Amd64/Arm64のDockerfileを1本化
 - **2025-03-06** 🔖[4.4.2_2025Mar](https://github.com/mokztk/RStudio_docker/releases/tag/4.4.2_2025Mar) : `rocker/rstudio:4.4.2` ベースに更新
+- **2025-06-15** 🔖[4.5.0_2025Jun](https://github.com/mokztk/RStudio_docker/releases/tag/4.5.0_2025Jun) : `rocker/rstudio:4.5.0` ベースに更新。remote SSH接続できるよう設定を追加
