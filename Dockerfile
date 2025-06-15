@@ -41,6 +41,7 @@ RUN /my_scripts/install_r_packages_pak.sh
 RUN /my_scripts/install_radian.sh
 RUN /my_scripts/install_notojp.sh
 RUN /my_scripts/install_coding_fonts.sh
+RUN /my_scripts/install_msedit.sh
 
 # 検証用ファイル
 COPY --chown=rstudio:rstudio utils /home/rstudio/utils
