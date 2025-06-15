@@ -66,7 +66,7 @@ mkdir -p /home/rstudio/.cache/R/R.cache
 chown -R rstudio:rstudio /home/rstudio/.cache
 
 # Clean up
-Rscript -e "pak::meta_clean(force = TRUE)"
+Rscript -e "pak::pak_cleanup(force = TRUE)"
 rm -rf /tmp/downloaded_packages
 
 apt-get clean
