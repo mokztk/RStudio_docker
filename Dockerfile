@@ -54,4 +54,10 @@ ENV LANG=ja_JP.UTF-8 \
     DISABLE_AUTH=true \
     RUNROOTLESS=false
 
+# SSHDを起動できるように準備
+RUN mkdir /var/run/sshd
+
+EXPOSE 22
+EXPOSE 8787
+
 CMD ["/init"]
