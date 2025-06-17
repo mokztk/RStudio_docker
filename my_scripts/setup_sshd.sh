@@ -11,3 +11,7 @@ cat << EOF > /etc/services.d/sshd/run
 EOF
 
 chmod 755 /etc/services.d/sshd/run
+
+# 公開鍵を置くディレクトリをユーザー rstudio で作っておく
+mkdir /home/rstudio/.ssh/
+chown -R rstudio:rstudio /home/rstudio/.ssh/
